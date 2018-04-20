@@ -7,43 +7,100 @@
 //
 
 import UIKit
-import WebKit
+import Alamofire
 
-var dateString = String()
-let idAppHexastar = "1087083"
-let idAppBinatrix = "1537733"
-func request(idApp:String,dateString:String) {
-    guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAATyhPde1n8j-kIhisiVQ7W6WIw") else { return }
-    
-    let session = URLSession.shared
-    session.dataTask(with: url) { (data, response, error) in
-        if let response = response as? HTTPURLResponse {
-            let statusCode = response.statusCode
-            print(statusCode)
-        }
-        guard let data = data else { return }
-        do {
-            let json = try JSONSerialization.jsonObject(with: data, options:[])
-            print(json)
-        } catch {
-        }
-        }.resume()
+struct  Datas:Decodable {
+    let data:[Isos]
+}
+struct  Isos:Decodable {
+    let country_iso_code:String
 }
 
+let letters = ["A":"\u{1F1E6}","B":"\u{1F1E7}","C":"\u{1F1E8}","D":"\u{1F1E9}","E":"\u{1F1EA}","F":"\u{1F1EB}","G":"\u{1F1EC}","H":"\u{1F1ED}","I":"\u{1F1EE}","J":"\u{1F1EF}","K":"\u{1F1F0}","L":"\u{1F1F1}","M":"\u{1F1F2}","N":"\u{1F1F3}","O":"\u{1F1F4}","P":"\u{1F1F5}","Q":"\u{1F1F6}","R":"\u{1F1F7}","S":"\u{1F1F8}","T":"\u{1F1F9}","U":"\u{1F1FA}","V":"\u{1F1FB}","W":"\u{1F1FC}","X":"\u{1F1FD}","Y":"\u{1F1FE}","Z":"\u{1F1FF}"]
+var dateString = String()
+let idAppBinatrix = "1087083"
+let idAppHexastar = "1537733"
+
+
 class ViewController: UIViewController {
+    var refreshControl:UIRefreshControl!
+    
+    @IBOutlet weak var scroll: UIScrollView!
+    @IBOutlet weak var spiner: UIActivityIndicatorView!
+    @IBOutlet weak var result: UILabel!
+    @IBOutlet weak var countRes: UILabel!
+    
     @IBAction func reset(_ sender: UIButton) {
         components(date: Date())
-        let calendar = Calendar.current
-        let date = calendar.date(byAdding: .hour, value: 3, to: Date())
-        picker.setDate(date!, animated: true)
-        print("date + 3 = \(date!)")
+        picker.setDate(Date(), animated: true)
+        self.spiner.stopAnimating()
+        self.spiner.isHidden = true
     }
     @IBOutlet weak var picker: UIDatePicker!
 
-    @IBAction func requestButton(_ sender: UIButton) {
-        request(idApp: idAppBinatrix, dateString: dateString)
-        request(idApp: idAppHexastar, dateString: dateString)
+    func request(idApp:String,dateString:String) {
+        guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = HTTPMethod.get.rawValue
+            urlRequest.setValue("max-age=120", forHTTPHeaderField: "Cache-Control")
+    
+            Alamofire.request(urlRequest)
+                .responseString { response in
+                    let statusCode = (response.response?.statusCode)!
+                    switch statusCode {
+                    case 202: self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                        self.request2(idApp: idApp, dateString: dateString)}
+                    case 200: self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); self.request2(idApp: idApp, dateString: dateString)
+                    default: break
+                    }
+            }
+        }
+    func request2(idApp:String,dateString:String) {
+        guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
+        var urlRequest = URLRequest(url: url)
+    
+        Alamofire.request(urlRequest)
+            .responseJSON { (response) in
+                let statusCode = (response.response?.statusCode)!
+                let result = response.data
+                
+       func jsonCount() {
+                var count = 0
+                var country = [String]()
+                var flagString = String()
+        
+            do {
+                let isoJson = try JSONDecoder().decode(Datas.self, from: result!)
+                count = isoJson.data.count
+                if count != 0 {
+                for i in 0...count - 1 {
+                country.append(isoJson.data[i].country_iso_code)
+                }
+                    for i in 0...count - 1 {
+                        flagString.append(letters[String(country[i].first!)]! + letters[String(country[i].last!)]! + " ")
+                    }
+                    
+                self.result.text = flagString
+                self.countRes.text = String(count)
+                } else {
+                    self.result.text = ""
+                    self.countRes.text = "0"
+                }
+            } catch {
+                print("error JSON")
+            }
+        
+            }
+                switch statusCode {
+                case 202: self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.request2(idApp: idApp, dateString: dateString)}
+                case 200: self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); jsonCount()
+                default: break
+            }
+        }
     }
+    
+    
     func components(date:Date){
         let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
         let months:String
@@ -62,21 +119,32 @@ class ViewController: UIViewController {
             }
             years = String(year)
             dateString = "\(years)-\(months)-\(days)"
-            print(dateString)
-            
         }
     }
 
     @objc func datePicker(_ sender: UIDatePicker) {
           components(date: sender.date)
     }
-    
-    
+    @objc func refresh() {
+        self.result.text = ""
+        self.countRes.text = ""
+        request(idApp: idAppBinatrix, dateString: dateString)
+        refreshControl.endRefreshing()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        scroll.alwaysBounceVertical = true
+        scroll.bounces  = true
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh), for: UIControlEvents.valueChanged)
+        scroll.addSubview(refreshControl)
+        spiner.startAnimating()
         components(date: Date())
         picker.addTarget(self, action: #selector(datePicker(_:)), for: .valueChanged)
-
+        request(idApp: idAppBinatrix, dateString: dateString)
+//        request(idApp: idAppHexastar, dateString: dateString)
     }
 }
+
 
