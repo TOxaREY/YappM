@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 
+
 struct  Datas:Decodable {
     let data:[Isos]
 }
@@ -31,10 +32,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var countRes: UILabel!
     
     @IBAction func reset(_ sender: UIButton) {
+        self.result.text = ""
+        self.countRes.text = ""
+        self.spiner.isHidden = false
+        self.spiner.startAnimating()
         components(date: Date())
         picker.setDate(Date(), animated: true)
-        self.spiner.stopAnimating()
-        self.spiner.isHidden = true
+                request(idApp: idAppBinatrix, dateString: dateString)
     }
     @IBOutlet weak var picker: UIDatePicker!
 
@@ -142,7 +146,11 @@ class ViewController: UIViewController {
         spiner.startAnimating()
         components(date: Date())
         picker.addTarget(self, action: #selector(datePicker(_:)), for: .valueChanged)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.request(idApp: idAppBinatrix, dateString: dateString)
+        }
         request(idApp: idAppBinatrix, dateString: dateString)
+
 //        request(idApp: idAppHexastar, dateString: dateString)
     }
 }
