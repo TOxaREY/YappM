@@ -9,6 +9,12 @@
 import UIKit
 import Alamofire
 
+var biCountry = Int()
+var biFlagString = String()
+var hexCountry = Int()
+var hexFlagString = String()
+
+
 struct  Datas:Decodable {
     let data:[Isos]
 }
@@ -30,7 +36,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var result: UILabel!
     @IBOutlet weak var countRes: UILabel!
     
-    @IBAction func reset(_ sender: UIButton) {
+    @IBAction func today(_ sender: UIButton) {
         self.result.text = ""
         self.countRes.text = ""
         self.spiner.isHidden = false
@@ -38,6 +44,9 @@ class ViewController: UIViewController {
         components(date: Date())
         picker.setDate(Date(), animated: true)
                 request(idApp: idAppBinatrix, dateString: dateString)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            self.request(idApp: idAppHexastar, dateString: dateString)
+        }
     }
     @IBOutlet weak var picker: UIDatePicker!
 
@@ -50,59 +59,72 @@ class ViewController: UIViewController {
             Alamofire.request(urlRequest)
                 .responseString { response in
                     let statusCode = (response.response?.statusCode)!
+                    let result = response.data
+    
                     switch statusCode {
                     case 202: self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                         self.request2(idApp: idApp, dateString: dateString)}
-                    case 200: self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); self.request2(idApp: idApp, dateString: dateString)
+                    case 200: self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
                     default: break
                     }
             }
         }
     func request2(idApp:String,dateString:String) {
         guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
-        var urlRequest = URLRequest(url: url)
+        let urlRequest = URLRequest(url: url)
     
         Alamofire.request(urlRequest)
             .responseJSON { (response) in
                 let statusCode = (response.response?.statusCode)!
                 let result = response.data
                 
-       func jsonCount() {
-                var count = 0
-                var country = [String]()
-                var flagString = String()
-        
-            do {
-                let isoJson = try JSONDecoder().decode(Datas.self, from: result!)
-                count = isoJson.data.count
-                if count != 0 {
-                for i in 0...count - 1 {
-                country.append(isoJson.data[i].country_iso_code)
-                }
-                    for i in 0...count - 1 {
-                        flagString.append(letters[String(country[i].first!)]! + letters[String(country[i].last!)]! + " ")
-                    }
-                    
-                self.result.text = flagString
-                self.countRes.text = String(count)
-                } else {
-                    self.result.text = ""
-                    self.countRes.text = "0"
-                }
-            } catch {
-                print("error JSON")
-            }
-        
-            }
                 switch statusCode {
                 case 202: self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     self.request2(idApp: idApp, dateString: dateString)}
-                case 200: self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); jsonCount()
+                case 200: self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
                 default: break
             }
         }
     }
     
+    func jsonCount(result:Data, idApp:String) {
+        if idApp == "1087083"{
+            biFlagString = ""
+            biCountry = 0
+        } else {
+            hexFlagString = ""
+            hexCountry = 0
+        }
+        var count = 0
+        var country = [String]()
+        var flagString = String()
+        
+        do {
+            let isoJson = try JSONDecoder().decode(Datas.self, from: result)
+            count = isoJson.data.count
+            if count != 0 {
+                for i in 0...count - 1 {
+                    country.append(isoJson.data[i].country_iso_code)
+                }
+                for i in 0...count - 1 {
+                    flagString.append(letters[String(country[i].first!)]! + letters[String(country[i].last!)]! + " ")
+                }
+                if idApp == "1087083"{
+                  biFlagString += flagString
+                  biCountry += count
+                } else {
+                    hexFlagString += flagString
+                    hexCountry += count
+                }
+            }
+        } catch {
+            print("error JSON")
+        }
+    }
+    func resulView() {
+        self.result.text = biFlagString + hexFlagString
+        self.countRes.text = String(biCountry + hexCountry)
+    }
     
     func components(date:Date){
         let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
@@ -132,6 +154,9 @@ class ViewController: UIViewController {
         self.result.text = ""
         self.countRes.text = ""
         request(idApp: idAppBinatrix, dateString: dateString)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            self.request(idApp: idAppHexastar, dateString: dateString)
+        }
         refreshControl.endRefreshing()
     }
 
@@ -145,13 +170,12 @@ class ViewController: UIViewController {
         spiner.startAnimating()
         components(date: Date())
         picker.addTarget(self, action: #selector(datePicker(_:)), for: .valueChanged)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.request(idApp: idAppBinatrix, dateString: dateString)
         }
-        request(idApp: idAppBinatrix, dateString: dateString)
-
-//        request(idApp: idAppHexastar, dateString: dateString)
-
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+            self.request(idApp: idAppHexastar, dateString: dateString)
+        }
      }
     }
 
