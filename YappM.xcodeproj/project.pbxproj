@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		100D75E9CE250808C3E84287 /* Pods_YappM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF6F65ED9258257A0FE8F40 /* Pods_YappM.framework */; };
+		F22F0B032098988D001A1104 /* int.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F22F0B012098988D001A1104 /* int.aiff */; };
+		F22F0B042098988D001A1104 /* silence.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F22F0B022098988D001A1104 /* silence.aiff */; };
 		F2D29510207FADC6002034DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D2950F207FADC6002034DB /* AppDelegate.swift */; };
 		F2D29512207FADC6002034DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D29511207FADC6002034DB /* ViewController.swift */; };
 		F2D29515207FADC6002034DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2D29513207FADC6002034DB /* Main.storyboard */; };
@@ -19,6 +21,8 @@
 		5AC486D19F2F90149D04DB7D /* Pods-YappM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YappM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YappM/Pods-YappM.debug.xcconfig"; sourceTree = "<group>"; };
 		EFF6F65ED9258257A0FE8F40 /* Pods_YappM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YappM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0AE2C6F06118EA02BD9C316 /* Pods-YappM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YappM.release.xcconfig"; path = "Pods/Target Support Files/Pods-YappM/Pods-YappM.release.xcconfig"; sourceTree = "<group>"; };
+		F22F0B012098988D001A1104 /* int.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = int.aiff; sourceTree = SOURCE_ROOT; };
+		F22F0B022098988D001A1104 /* silence.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = silence.aiff; sourceTree = SOURCE_ROOT; };
 		F2D2950C207FADC6002034DB /* YappM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YappM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2D2950F207FADC6002034DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2D29511207FADC6002034DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 		F2D2950E207FADC6002034DB /* YappM */ = {
 			isa = PBXGroup;
 			children = (
+				F22F0B012098988D001A1104 /* int.aiff */,
+				F22F0B022098988D001A1104 /* silence.aiff */,
 				F2FFE367208B9ED700636BBB /* YappM.entitlements */,
 				F2D2950F207FADC6002034DB /* AppDelegate.swift */,
 				F2D29511207FADC6002034DB /* ViewController.swift */,
@@ -157,7 +163,9 @@
 			files = (
 				F2D2951A207FADC7002034DB /* LaunchScreen.storyboard in Resources */,
 				F2D29517207FADC7002034DB /* Assets.xcassets in Resources */,
+				F22F0B042098988D001A1104 /* silence.aiff in Resources */,
 				F2D29515207FADC6002034DB /* Main.storyboard in Resources */,
+				F22F0B032098988D001A1104 /* int.aiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

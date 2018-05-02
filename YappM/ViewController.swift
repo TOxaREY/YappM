@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 
-
 struct  Datas:Decodable {
     let data:[Isos]
 }
@@ -152,7 +151,9 @@ class ViewController: UIViewController {
         request(idApp: idAppBinatrix, dateString: dateString)
 
 //        request(idApp: idAppHexastar, dateString: dateString)
+
+     }
     }
-}
+
 
 
