@@ -13,7 +13,7 @@ var biCountry = Int()
 var biFlagString = String()
 var hexCountry = Int()
 var hexFlagString = String()
-
+var req = 0
 
 struct  Datas:Decodable {
     let data:[Isos]
@@ -37,6 +37,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var countRes: UILabel!
     
     @IBAction func today(_ sender: UIButton) {
+        req = 0
         self.result.text = ""
         self.countRes.text = ""
         self.spiner.isHidden = false
@@ -44,7 +45,7 @@ class ViewController: UIViewController {
         components(date: Date())
         picker.setDate(Date(), animated: true)
                 request(idApp: idAppBinatrix, dateString: dateString)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.request(idApp: idAppHexastar, dateString: dateString)
         }
     }
@@ -64,7 +65,7 @@ class ViewController: UIViewController {
                     switch statusCode {
                     case 202: self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                         self.request2(idApp: idApp, dateString: dateString)}
-                    case 200: self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
+                    case 200: req = 0; self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
                     default: break
                     }
             }
@@ -77,13 +78,15 @@ class ViewController: UIViewController {
             .responseJSON { (response) in
                 let statusCode = (response.response?.statusCode)!
                 let result = response.data
-                
+                print(req)
+                if req < 5 {
                 switch statusCode {
-                case 202: self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                case 202: req += 1; self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                     self.request2(idApp: idApp, dateString: dateString)}
-                case 200: self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
+                case 200: req = 0; self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
                 default: break
             }
+          }
         }
     }
     
@@ -151,13 +154,13 @@ class ViewController: UIViewController {
           components(date: sender.date)
     }
     @objc func refresh() {
+        req = 0
         self.result.text = ""
         self.countRes.text = ""
         request(idApp: idAppBinatrix, dateString: dateString)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.request(idApp: idAppHexastar, dateString: dateString)
         }
-        refreshControl.endRefreshing()
     }
 
     override func viewDidLoad() {
@@ -170,10 +173,10 @@ class ViewController: UIViewController {
         spiner.startAnimating()
         components(date: Date())
         picker.addTarget(self, action: #selector(datePicker(_:)), for: .valueChanged)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             self.request(idApp: idAppBinatrix, dateString: dateString)
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
             self.request(idApp: idAppHexastar, dateString: dateString)
         }
      }
