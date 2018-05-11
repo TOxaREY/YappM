@@ -51,14 +51,30 @@ class ViewController: UIViewController {
     }
     @IBOutlet weak var picker: UIDatePicker!
 
+    func putToken()  {
+        if UserDefaults.standard.string(forKey: "TokenDevice") != nil {
+            let params: [String: Any] = ["tokenDevice" : UserDefaults.standard.string(forKey: "TokenDevice")!]
+            Alamofire.request("http://193.124.184.149:8000/token/5af49fe5da783d09cb0bd947", method: .put, parameters: params).responseJSON { (response) in
+                guard response.result.isSuccess else{return}
+                let val = (response.value)!
+                print(val)
+            }
+        }
+    }
+    
     func request(idApp:String,dateString:String) {
         guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = HTTPMethod.get.rawValue
             urlRequest.setValue("max-age=120", forHTTPHeaderField: "Cache-Control")
-    
+            urlRequest.timeoutInterval = 20
+        
             Alamofire.request(urlRequest)
                 .responseString { response in
+                    guard response.result.isSuccess else {
+                        print("Error response: \(String(describing: response.result.error))")
+                        return self.request(idApp: idApp, dateString: dateString)
+                    }
                     let statusCode = (response.response?.statusCode)!
                     let result = response.data
     
@@ -72,13 +88,16 @@ class ViewController: UIViewController {
         }
     func request2(idApp:String,dateString:String) {
         guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
-        let urlRequest = URLRequest(url: url)
-    
+        var urlRequest = URLRequest(url: url)
+        urlRequest.timeoutInterval = 20
+        
         Alamofire.request(urlRequest)
             .responseJSON { (response) in
+                guard response.result.isSuccess else {
+                    return self.request2(idApp: idApp, dateString: dateString)
+                }
                 let statusCode = (response.response?.statusCode)!
                 let result = response.data
-                print(req)
                 if req < 5 {
                 switch statusCode {
                 case 202: req += 1; self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
@@ -165,6 +184,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        putToken()
         scroll.alwaysBounceVertical = true
         scroll.bounces  = true
         refreshControl = UIRefreshControl()
