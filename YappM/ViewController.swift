@@ -32,7 +32,6 @@ class ViewController: UIViewController {
     var refreshControl:UIRefreshControl!
     
     @IBOutlet weak var scroll: UIScrollView!
-    @IBOutlet weak var spiner: UIActivityIndicatorView!
     @IBOutlet weak var result: UILabel!
     @IBOutlet weak var countRes: UILabel!
     
@@ -40,8 +39,6 @@ class ViewController: UIViewController {
         req = 0
         self.result.text = ""
         self.countRes.text = ""
-        self.spiner.isHidden = false
-        self.spiner.startAnimating()
         components(date: Date())
         picker.setDate(Date(), animated: true)
                 request(idApp: idAppBinatrix, dateString: dateString)
@@ -81,7 +78,7 @@ class ViewController: UIViewController {
                     switch statusCode {
                     case 202: self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                         self.request2(idApp: idApp, dateString: dateString)}
-                    case 200: req = 0; self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
+                    case 200: req = 0; self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
                     default: break
                     }
             }
@@ -102,7 +99,7 @@ class ViewController: UIViewController {
                 switch statusCode {
                 case 202: req += 1; self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                     self.request2(idApp: idApp, dateString: dateString)}
-                case 200: req = 0; self.spiner.isHidden = true; self.spiner.stopAnimating(); self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
+                case 200: req = 0; self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
                 default: break
             }
           }
@@ -185,20 +182,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         putToken()
+        result.text = "⇩"
         scroll.alwaysBounceVertical = true
         scroll.bounces  = true
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh), for: UIControlEvents.valueChanged)
         scroll.addSubview(refreshControl)
-        spiner.startAnimating()
         components(date: Date())
         picker.addTarget(self, action: #selector(datePicker(_:)), for: .valueChanged)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.request(idApp: idAppBinatrix, dateString: dateString)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
-            self.request(idApp: idAppHexastar, dateString: dateString)
-        }
+
      }
     }
 

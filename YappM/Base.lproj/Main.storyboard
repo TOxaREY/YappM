@@ -45,10 +45,6 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bgl-FK-8j0">
                                 <rect key="frame" x="0.0" y="185" width="320" height="313"/>
                             </scrollView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fuL-V5-UVM">
-                                <rect key="frame" x="150" y="334" width="20" height="20"/>
-                                <color key="color" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kcm-6c-7h1">
                                 <rect key="frame" x="131" y="155" width="58" height="30"/>
                                 <color key="backgroundColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -75,12 +71,10 @@
                             <constraint firstItem="KY8-9z-NAC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JdB-zU-Nv4"/>
                             <constraint firstItem="0ay-P8-xPQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="KfZ-jS-Z8m"/>
                             <constraint firstItem="ASU-cv-Bzp" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LHb-8X-3N3"/>
-                            <constraint firstItem="fuL-V5-UVM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="VSw-v9-7sE"/>
                             <constraint firstItem="KY8-9z-NAC" firstAttribute="top" secondItem="ASU-cv-Bzp" secondAttribute="bottom" constant="10" id="WNv-ne-sbA"/>
                             <constraint firstItem="ASU-cv-Bzp" firstAttribute="top" secondItem="kcm-6c-7h1" secondAttribute="bottom" constant="10" id="Wey-eq-kbH"/>
                             <constraint firstItem="0ay-P8-xPQ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="X42-uD-q5R"/>
                             <constraint firstItem="0ay-P8-xPQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Xg7-Rp-hg6"/>
-                            <constraint firstItem="fuL-V5-UVM" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="60" id="aYn-eZ-rNT"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ASU-cv-Bzp" secondAttribute="trailing" constant="10" id="aev-1d-2jV"/>
                             <constraint firstItem="KY8-9z-NAC" firstAttribute="top" secondItem="Bgl-FK-8j0" secondAttribute="bottom" id="d2r-gg-P58"/>
                             <constraint firstItem="Bgl-FK-8j0" firstAttribute="top" secondItem="kcm-6c-7h1" secondAttribute="bottom" id="fkT-kg-jsr"/>
@@ -95,7 +89,6 @@
                         <outlet property="picker" destination="0ay-P8-xPQ" id="nuc-g4-v1v"/>
                         <outlet property="result" destination="ASU-cv-Bzp" id="rDw-Fw-YEG"/>
                         <outlet property="scroll" destination="Bgl-FK-8j0" id="SBc-NN-TpY"/>
-                        <outlet property="spiner" destination="fuL-V5-UVM" id="USd-p9-Iq5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
