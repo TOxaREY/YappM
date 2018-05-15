@@ -31,20 +31,19 @@ let idAppHexastar = "1537733"
 class ViewController: UIViewController {
     var refreshControl:UIRefreshControl!
     
+    @IBOutlet weak var lLabel: UILabel!
+    @IBOutlet weak var rLabel: UILabel!
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var result: UILabel!
     @IBOutlet weak var countRes: UILabel!
     
     @IBAction func today(_ sender: UIButton) {
-        req = 0
-        self.result.text = ""
-        self.countRes.text = ""
         components(date: Date())
         picker.setDate(Date(), animated: true)
-                request(idApp: idAppBinatrix, dateString: dateString)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.request(idApp: idAppHexastar, dateString: dateString)
-        }
+        result.text = "⇩"
+        countRes.text = ""
+        self.lLabel.text = ""
+        self.rLabel.text = ""
     }
     @IBOutlet weak var picker: UIDatePicker!
 
@@ -74,11 +73,23 @@ class ViewController: UIViewController {
                     }
                     let statusCode = (response.response?.statusCode)!
                     let result = response.data
-    
+                    if idApp=="1087083"{
+                        if statusCode == 202 {
+                            self.lLabel.text = "ждём"
+                        } else {
+                            self.lLabel.text = "OK"
+                        }
+                    } else {
+                        if statusCode == 202 {
+                            self.rLabel.text = "ждём"
+                        } else {
+                            self.rLabel.text = "OK"
+                        }
+                    }
                     switch statusCode {
-                    case 202: self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    case 202: DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                         self.request2(idApp: idApp, dateString: dateString)}
-                    case 200: req = 0; self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
+                    case 200: req = 0; self.jsonCount(result: result!, idApp: idApp); self.resulView()
                     default: break
                     }
             }
@@ -95,11 +106,24 @@ class ViewController: UIViewController {
                 }
                 let statusCode = (response.response?.statusCode)!
                 let result = response.data
+                if idApp=="1087083"{
+                    if statusCode == 202 {
+                        self.lLabel.text = "ждём"
+                    } else {
+                        self.lLabel.text = "OK"
+                    }
+                } else {
+                    if statusCode == 202 {
+                        self.rLabel.text = "ждём"
+                    } else {
+                        self.rLabel.text = "OK"
+                    }
+                }
                 if req < 5 {
                 switch statusCode {
-                case 202: req += 1; self.refreshControl.beginRefreshing(); DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                case 202: req += 1; DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                     self.request2(idApp: idApp, dateString: dateString)}
-                case 200: req = 0; self.refreshControl.endRefreshing(); self.jsonCount(result: result!, idApp: idApp); self.resulView()
+                case 200: req = 0; self.jsonCount(result: result!, idApp: idApp); self.resulView()
                 default: break
             }
           }
@@ -138,13 +162,18 @@ class ViewController: UIViewController {
             }
         } catch {
             print("error JSON")
-        }
+      }
     }
     func resulView() {
+    if rLabel.text == "OK" && lLabel.text == "OK" {
+    self.refreshControl.endRefreshing()
         self.result.text = biFlagString + hexFlagString
         self.countRes.text = String(biCountry + hexCountry)
-    }
-    
+    } else {                                
+            result.text = ""
+            countRes.text = ""
+        }
+     }
     func components(date:Date){
         let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
         let months:String
@@ -168,13 +197,22 @@ class ViewController: UIViewController {
 
     @objc func datePicker(_ sender: UIDatePicker) {
           components(date: sender.date)
+         result.text = "⇩"
+        countRes.text = ""
+        self.lLabel.text = ""
+        self.rLabel.text = ""
     }
     @objc func refresh() {
         req = 0
         self.result.text = ""
         self.countRes.text = ""
-        request(idApp: idAppBinatrix, dateString: dateString)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        self.lLabel.text = "ждём"
+        self.rLabel.text = "ждём"
+        self.refreshControl.beginRefreshing()
+         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.request(idApp: idAppBinatrix, dateString: dateString)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             self.request(idApp: idAppHexastar, dateString: dateString)
         }
     }
@@ -183,6 +221,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         putToken()
         result.text = "⇩"
+        lLabel.text=""
+        rLabel.text=""
         scroll.alwaysBounceVertical = true
         scroll.bounces  = true
         refreshControl = UIRefreshControl()
