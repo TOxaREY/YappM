@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		100D75E9CE250808C3E84287 /* Pods_YappM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF6F65ED9258257A0FE8F40 /* Pods_YappM.framework */; };
+		F21008D720ACC782000F4491 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F21008D520ACC782000F4491 /* Interface.storyboard */; };
+		F21008D920ACC783000F4491 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F21008D820ACC783000F4491 /* Assets.xcassets */; };
+		F21008E020ACC783000F4491 /* YappMWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F21008DF20ACC783000F4491 /* YappMWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F21008E520ACC783000F4491 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21008E420ACC783000F4491 /* InterfaceController.swift */; };
+		F21008E720ACC783000F4491 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21008E620ACC783000F4491 /* ExtensionDelegate.swift */; };
+		F21008E920ACC784000F4491 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F21008E820ACC784000F4491 /* Assets.xcassets */; };
+		F21008ED20ACC784000F4491 /* YappMWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = F21008D320ACC782000F4491 /* YappMWatch.app */; };
 		F22F0B032098988D001A1104 /* int.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F22F0B012098988D001A1104 /* int.aiff */; };
 		F22F0B042098988D001A1104 /* silence.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F22F0B022098988D001A1104 /* silence.aiff */; };
 		F2D29510207FADC6002034DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D2950F207FADC6002034DB /* AppDelegate.swift */; };
@@ -17,10 +24,61 @@
 		F2D2951A207FADC7002034DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2D29518207FADC7002034DB /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F21008E120ACC783000F4491 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2D29504207FADC6002034DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F21008DE20ACC783000F4491;
+			remoteInfo = "YappMWatch Extension";
+		};
+		F21008EB20ACC784000F4491 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2D29504207FADC6002034DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F21008D220ACC782000F4491;
+			remoteInfo = YappMWatch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F21008F320ACC784000F4491 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F21008E020ACC783000F4491 /* YappMWatch Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F21008F520ACC784000F4491 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				F21008ED20ACC784000F4491 /* YappMWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		5AC486D19F2F90149D04DB7D /* Pods-YappM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YappM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YappM/Pods-YappM.debug.xcconfig"; sourceTree = "<group>"; };
 		EFF6F65ED9258257A0FE8F40 /* Pods_YappM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YappM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0AE2C6F06118EA02BD9C316 /* Pods-YappM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YappM.release.xcconfig"; path = "Pods/Target Support Files/Pods-YappM/Pods-YappM.release.xcconfig"; sourceTree = "<group>"; };
+		F21008D320ACC782000F4491 /* YappMWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YappMWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F21008D620ACC782000F4491 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		F21008D820ACC783000F4491 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F21008DA20ACC783000F4491 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F21008DF20ACC783000F4491 /* YappMWatch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "YappMWatch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F21008E420ACC783000F4491 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		F21008E620ACC783000F4491 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		F21008E820ACC784000F4491 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F21008EA20ACC784000F4491 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F22F0B012098988D001A1104 /* int.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = int.aiff; sourceTree = SOURCE_ROOT; };
 		F22F0B022098988D001A1104 /* silence.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = silence.aiff; sourceTree = SOURCE_ROOT; };
 		F2D2950C207FADC6002034DB /* YappM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YappM.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,6 +92,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F21008DC20ACC783000F4491 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2D29509207FADC6002034DB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -62,10 +127,33 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F21008D420ACC782000F4491 /* YappMWatch */ = {
+			isa = PBXGroup;
+			children = (
+				F21008D520ACC782000F4491 /* Interface.storyboard */,
+				F21008D820ACC783000F4491 /* Assets.xcassets */,
+				F21008DA20ACC783000F4491 /* Info.plist */,
+			);
+			path = YappMWatch;
+			sourceTree = "<group>";
+		};
+		F21008E320ACC783000F4491 /* YappMWatch Extension */ = {
+			isa = PBXGroup;
+			children = (
+				F21008E420ACC783000F4491 /* InterfaceController.swift */,
+				F21008E620ACC783000F4491 /* ExtensionDelegate.swift */,
+				F21008E820ACC784000F4491 /* Assets.xcassets */,
+				F21008EA20ACC784000F4491 /* Info.plist */,
+			);
+			path = "YappMWatch Extension";
+			sourceTree = "<group>";
+		};
 		F2D29503207FADC6002034DB = {
 			isa = PBXGroup;
 			children = (
 				F2D2950E207FADC6002034DB /* YappM */,
+				F21008D420ACC782000F4491 /* YappMWatch */,
+				F21008E320ACC783000F4491 /* YappMWatch Extension */,
 				F2D2950D207FADC6002034DB /* Products */,
 				4DA59479A3D9B05A177B403B /* Pods */,
 				911EA8BAE66C2A70534BF446 /* Frameworks */,
@@ -76,6 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				F2D2950C207FADC6002034DB /* YappM.app */,
+				F21008D320ACC782000F4491 /* YappMWatch.app */,
+				F21008DF20ACC783000F4491 /* YappMWatch Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,6 +189,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F21008D220ACC782000F4491 /* YappMWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F21008F420ACC784000F4491 /* Build configuration list for PBXNativeTarget "YappMWatch" */;
+			buildPhases = (
+				F21008D120ACC782000F4491 /* Resources */,
+				F21008F320ACC784000F4491 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F21008E220ACC783000F4491 /* PBXTargetDependency */,
+			);
+			name = YappMWatch;
+			productName = YappMWatch;
+			productReference = F21008D320ACC782000F4491 /* YappMWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		F21008DE20ACC783000F4491 /* YappMWatch Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F21008F220ACC784000F4491 /* Build configuration list for PBXNativeTarget "YappMWatch Extension" */;
+			buildPhases = (
+				F21008DB20ACC783000F4491 /* Sources */,
+				F21008DC20ACC783000F4491 /* Frameworks */,
+				F21008DD20ACC783000F4491 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "YappMWatch Extension";
+			productName = "YappMWatch Extension";
+			productReference = F21008DF20ACC783000F4491 /* YappMWatch Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		F2D2950B207FADC6002034DB /* YappM */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F2D2951E207FADC7002034DB /* Build configuration list for PBXNativeTarget "YappM" */;
@@ -108,10 +232,12 @@
 				F2D29509207FADC6002034DB /* Frameworks */,
 				F2D2950A207FADC6002034DB /* Resources */,
 				3814419BEE7DBE9111BDD93D /* [CP] Embed Pods Frameworks */,
+				F21008F520ACC784000F4491 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F21008EC20ACC784000F4491 /* PBXTargetDependency */,
 			);
 			name = YappM;
 			productName = YappM;
@@ -128,6 +254,12 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "REYNIKOV ANTON";
 				TargetAttributes = {
+					F21008D220ACC782000F4491 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
+					F21008DE20ACC783000F4491 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
 					F2D2950B207FADC6002034DB = {
 						CreatedOnToolsVersion = 9.3;
 						SystemCapabilities = {
@@ -152,11 +284,30 @@
 			projectRoot = "";
 			targets = (
 				F2D2950B207FADC6002034DB /* YappM */,
+				F21008D220ACC782000F4491 /* YappMWatch */,
+				F21008DE20ACC783000F4491 /* YappMWatch Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F21008D120ACC782000F4491 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F21008D920ACC783000F4491 /* Assets.xcassets in Resources */,
+				F21008D720ACC782000F4491 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F21008DD20ACC783000F4491 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F21008E920ACC784000F4491 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2D2950A207FADC6002034DB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -211,6 +362,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F21008DB20ACC783000F4491 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F21008E720ACC783000F4491 /* ExtensionDelegate.swift in Sources */,
+				F21008E520ACC783000F4491 /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2D29508207FADC6002034DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -222,7 +382,28 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		F21008E220ACC783000F4491 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F21008DE20ACC783000F4491 /* YappMWatch Extension */;
+			targetProxy = F21008E120ACC783000F4491 /* PBXContainerItemProxy */;
+		};
+		F21008EC20ACC784000F4491 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F21008D220ACC782000F4491 /* YappMWatch */;
+			targetProxy = F21008EB20ACC784000F4491 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		F21008D520ACC782000F4491 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F21008D620ACC782000F4491 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		F2D29513207FADC6002034DB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -242,6 +423,88 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		F21008EE20ACC784000F4491 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EB6R5QS764;
+				IBSC_MODULE = YappMWatch_Extension;
+				INFOPLIST_FILE = YappMWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = deltaTOxaREY.YappM.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Debug;
+		};
+		F21008EF20ACC784000F4491 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EB6R5QS764;
+				IBSC_MODULE = YappMWatch_Extension;
+				INFOPLIST_FILE = YappMWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = deltaTOxaREY.YappM.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Release;
+		};
+		F21008F020ACC784000F4491 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EB6R5QS764;
+				INFOPLIST_FILE = "YappMWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = deltaTOxaREY.YappM.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Debug;
+		};
+		F21008F120ACC784000F4491 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EB6R5QS764;
+				INFOPLIST_FILE = "YappMWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = deltaTOxaREY.YappM.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Release;
+		};
 		F2D2951C207FADC7002034DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -365,7 +628,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EB6R5QS764;
 				INFOPLIST_FILE = YappM/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = deltaTOxaREY.YappM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -382,7 +648,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EB6R5QS764;
 				INFOPLIST_FILE = YappM/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = deltaTOxaREY.YappM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -393,6 +662,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F21008F220ACC784000F4491 /* Build configuration list for PBXNativeTarget "YappMWatch Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F21008F020ACC784000F4491 /* Debug */,
+				F21008F120ACC784000F4491 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F21008F420ACC784000F4491 /* Build configuration list for PBXNativeTarget "YappMWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F21008EE20ACC784000F4491 /* Debug */,
+				F21008EF20ACC784000F4491 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F2D29507207FADC6002034DB /* Build configuration list for PBXProject "YappM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

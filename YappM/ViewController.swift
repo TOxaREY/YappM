@@ -37,6 +37,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var result: UILabel!
     @IBOutlet weak var countRes: UILabel!
     
+    @IBOutlet weak var today: UIButton!
     @IBAction func today(_ sender: UIButton) {
         components(date: Date())
         picker.setDate(Date(), animated: true)
@@ -62,10 +63,10 @@ class ViewController: UIViewController {
         guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = HTTPMethod.get.rawValue
-            urlRequest.setValue("max-age=120", forHTTPHeaderField: "Cache-Control")
-            urlRequest.timeoutInterval = 20
+            urlRequest.setValue("max-age=60", forHTTPHeaderField: "Cache-Control")
+            urlRequest.timeoutInterval = 30
         
-            Alamofire.request(urlRequest)
+           Alamofire.request(urlRequest)
                 .responseString { response in
                     guard response.result.isSuccess else {
                         print("Error response: \(String(describing: response.result.error))")
@@ -75,59 +76,26 @@ class ViewController: UIViewController {
                     let result = response.data
                     if idApp=="1087083"{
                         if statusCode == 202 {
-                            self.lLabel.text = "ждём"
+                            self.lLabel.text = "request"
                         } else {
                             self.lLabel.text = "OK"
                         }
                     } else {
                         if statusCode == 202 {
-                            self.rLabel.text = "ждём"
+                            self.rLabel.text = "request"
                         } else {
                             self.rLabel.text = "OK"
                         }
                     }
-                    switch statusCode {
-                    case 202: DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                        self.request2(idApp: idApp, dateString: dateString)}
-                    case 200: req = 0; self.jsonCount(result: result!, idApp: idApp); self.resulView()
-                    default: break
-                    }
-            }
-        }
-    func request2(idApp:String,dateString:String) {
-        guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
-        var urlRequest = URLRequest(url: url)
-        urlRequest.timeoutInterval = 20
-        
-        Alamofire.request(urlRequest)
-            .responseJSON { (response) in
-                guard response.result.isSuccess else {
-                    return self.request2(idApp: idApp, dateString: dateString)
-                }
-                let statusCode = (response.response?.statusCode)!
-                let result = response.data
-                if idApp=="1087083"{
-                    if statusCode == 202 {
-                        self.lLabel.text = "ждём"
-                    } else {
-                        self.lLabel.text = "OK"
-                    }
-                } else {
-                    if statusCode == 202 {
-                        self.rLabel.text = "ждём"
-                    } else {
-                        self.rLabel.text = "OK"
-                    }
-                }
-                if req < 5 {
-                switch statusCode {
-                case 202: req += 1; DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                    self.request2(idApp: idApp, dateString: dateString)}
-                case 200: req = 0; self.jsonCount(result: result!, idApp: idApp); self.resulView()
-                default: break
-            }
-          }
-        }
+                        if req < 10 {
+                            switch statusCode {
+                            case 202: req += 1; DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                self.request(idApp: idApp, dateString: dateString)}
+                            case 200: req = 0; self.jsonCount(result: result!, idApp: idApp); self.resulView()
+                            default: break
+                            }
+                        }
+           }
     }
     
     func jsonCount(result:Data, idApp:String) {
@@ -166,10 +134,12 @@ class ViewController: UIViewController {
     }
     func resulView() {
     if rLabel.text == "OK" && lLabel.text == "OK" {
+    today.isEnabled = true
+        picker.isEnabled = true
     self.refreshControl.endRefreshing()
         self.result.text = biFlagString + hexFlagString
         self.countRes.text = String(biCountry + hexCountry)
-    } else {                                
+    } else {
             result.text = ""
             countRes.text = ""
         }
@@ -196,8 +166,8 @@ class ViewController: UIViewController {
     }
 
     @objc func datePicker(_ sender: UIDatePicker) {
-          components(date: sender.date)
-         result.text = "⇩"
+        components(date: sender.date)
+        result.text = "⇩"
         countRes.text = ""
         self.lLabel.text = ""
         self.rLabel.text = ""
@@ -206,8 +176,10 @@ class ViewController: UIViewController {
         req = 0
         self.result.text = ""
         self.countRes.text = ""
-        self.lLabel.text = "ждём"
-        self.rLabel.text = "ждём"
+        self.lLabel.text = "request"
+        self.rLabel.text = "request"
+        today.isEnabled = false
+        picker.isEnabled = false
         self.refreshControl.beginRefreshing()
          DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.request(idApp: idAppBinatrix, dateString: dateString)
@@ -230,7 +202,6 @@ class ViewController: UIViewController {
         scroll.addSubview(refreshControl)
         components(date: Date())
         picker.addTarget(self, action: #selector(datePicker(_:)), for: .valueChanged)
-
      }
     }
 

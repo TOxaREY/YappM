@@ -46,8 +46,8 @@ xhr1.open('GET', https1, false);
 xhr2.open('GET', https2, false);
 xhrT.open('GET', httpT, false);
 // Add header
-xhr1.setRequestHeader('Cache-Control', 'max-age=120');
-xhr2.setRequestHeader('Cache-Control', 'max-age=120');
+xhr1.setRequestHeader('Cache-Control', 'max-age=60');
+xhr2.setRequestHeader('Cache-Control', 'max-age=60');
 // Add timeout async request
 xhr1.timeout = 60000;
 xhr2.timeout = 60000;
@@ -190,7 +190,7 @@ notification.expiry = Math.floor(Date.now() / 1000) + 3600;
 // Send any extra payload data with the notification which will be accessible to your app in didReceiveRemoteNotification
 notification.payload = {id: 123};
 // Display the following message (the actual notification text, supports emoji)
-notification.alert = allflags;
+notification.alert = allflags+" "+alljsoncount;
 // Set app badge indicator
 notification.badge = alljsoncount;
 // Play ping.aiff sound when the notification is received
