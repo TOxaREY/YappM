@@ -12,8 +12,28 @@
         <!--Interface Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="YappMWatch" customModuleProvider="target"/>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="YappMWatch" customModuleProvider="target">
+                    <items>
+                        <label width="1" alignment="center" verticalAlignment="center" textAlignment="center" numberOfLines="0" id="p5K-cA-okg">
+                            <fontDescription key="font" type="system" pointSize="30"/>
+                        </label>
+                        <label width="62" alignment="center" verticalAlignment="bottom" textAlignment="center" id="hQE-Uf-01U">
+                            <fontDescription key="font" type="system" pointSize="35"/>
+                        </label>
+                        <button width="46" alignment="left" verticalAlignment="bottom" id="Nmq-90-IwK">
+                            <color key="backgroundColor" red="0.8862745098" green="0.0078431372550000003" blue="0.01176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="redButton" destination="AgC-eL-Hgc" id="Kc7-YE-Khh"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="flagPick" destination="p5K-cA-okg" id="27h-8f-dNj"/>
+                        <outlet property="resultCount" destination="hQE-Uf-01U" id="Sql-Ab-s9V"/>
+                    </connections>
+                </controller>
             </objects>
+            <point key="canvasLocation" x="132.51282051282053" y="31.820512820512821"/>
         </scene>
     </scenes>
 </document>

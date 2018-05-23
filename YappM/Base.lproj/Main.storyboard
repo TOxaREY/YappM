@@ -30,9 +30,6 @@
                                 <date key="minimumDate" timeIntervalSinceReferenceDate="529758000">
                                     <!--2017-10-15 11:00:00 +0000-->
                                 </date>
-                                <date key="maximumDate" timeIntervalSinceReferenceDate="567946800">
-                                    <!--2018-12-31 11:00:00 +0000-->
-                                </date>
                                 <locale key="locale" localeIdentifier="ru"/>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ASU-cv-Bzp">
@@ -86,6 +83,18 @@
                                 <color key="textColor" red="0.1647058824" green="0.64705882349999999" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LIb-lQ-A1O">
+                                <rect key="frame" x="250" y="513" width="40" height="30"/>
+                                <color key="backgroundColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="dlM-qm-F8L"/>
+                                    <constraint firstAttribute="width" constant="40" id="k96-Fb-bcX"/>
+                                </constraints>
+                                <state key="normal" title="reset"/>
+                                <connections>
+                                    <action selector="reset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nsa-Y6-2Kn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -96,11 +105,13 @@
                             <constraint firstItem="KY8-9z-NAC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JdB-zU-Nv4"/>
                             <constraint firstItem="0ay-P8-xPQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="KfZ-jS-Z8m"/>
                             <constraint firstItem="ASU-cv-Bzp" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LHb-8X-3N3"/>
+                            <constraint firstItem="KY8-9z-NAC" firstAttribute="centerY" secondItem="LIb-lQ-A1O" secondAttribute="centerY" id="RBn-Av-ZmE"/>
                             <constraint firstItem="Niw-Jy-MYe" firstAttribute="centerY" secondItem="kcm-6c-7h1" secondAttribute="centerY" id="Vow-DJ-DM6"/>
                             <constraint firstItem="KY8-9z-NAC" firstAttribute="top" secondItem="ASU-cv-Bzp" secondAttribute="bottom" constant="10" id="WNv-ne-sbA"/>
                             <constraint firstItem="ASU-cv-Bzp" firstAttribute="top" secondItem="kcm-6c-7h1" secondAttribute="bottom" constant="10" id="Wey-eq-kbH"/>
                             <constraint firstItem="0ay-P8-xPQ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="X42-uD-q5R"/>
                             <constraint firstItem="0ay-P8-xPQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Xg7-Rp-hg6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LIb-lQ-A1O" secondAttribute="trailing" constant="30" id="YVF-zK-hMd"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ASU-cv-Bzp" secondAttribute="trailing" constant="10" id="aev-1d-2jV"/>
                             <constraint firstItem="3Ap-tJ-YM0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" symbolic="YES" id="bGz-gj-yPB"/>
                             <constraint firstItem="Niw-Jy-MYe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="chW-rf-XnT"/>
@@ -118,6 +129,7 @@
                         <outlet property="lLabel" destination="Niw-Jy-MYe" id="hE2-IM-7tK"/>
                         <outlet property="picker" destination="0ay-P8-xPQ" id="nuc-g4-v1v"/>
                         <outlet property="rLabel" destination="3Ap-tJ-YM0" id="UEl-IL-QaT"/>
+                        <outlet property="resetButton" destination="LIb-lQ-A1O" id="w5Z-c6-dGb"/>
                         <outlet property="result" destination="ASU-cv-Bzp" id="rDw-Fw-YEG"/>
                         <outlet property="scroll" destination="Bgl-FK-8j0" id="SBc-NN-TpY"/>
                         <outlet property="today" destination="kcm-6c-7h1" id="MFk-e1-dah"/>

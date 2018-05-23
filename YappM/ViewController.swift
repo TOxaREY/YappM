@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import WatchConnectivity
 
 var biCountry = Int()
 var biFlagString = String()
@@ -28,7 +29,20 @@ let idAppBinatrix = "1087083"
 let idAppHexastar = "1537733"
 
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, WCSessionDelegate {
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        
+    }
+    
+
     var refreshControl:UIRefreshControl!
     
     @IBOutlet weak var lLabel: UILabel!
@@ -36,15 +50,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var result: UILabel!
     @IBOutlet weak var countRes: UILabel!
-    
+    @IBOutlet weak var resetButton: UIButton!
+    @IBAction func reset(_ sender: Any) {
+        Alamofire.SessionManager.default.session.getTasksWithCompletionHandler { (sessionDataTask, uploadData, downloadData) in
+            sessionDataTask.forEach { $0.cancel() }
+            uploadData.forEach { $0.cancel() }
+            downloadData.forEach { $0.cancel() }
+        }
+    }
     @IBOutlet weak var today: UIButton!
     @IBAction func today(_ sender: UIButton) {
         components(date: Date())
         picker.setDate(Date(), animated: true)
         result.text = "⇩"
         countRes.text = ""
-        self.lLabel.text = ""
-        self.rLabel.text = ""
+        lLabel.text = ""
+        rLabel.text = ""
     }
     @IBOutlet weak var picker: UIDatePicker!
 
@@ -74,28 +95,30 @@ class ViewController: UIViewController {
                     }
                     let statusCode = (response.response?.statusCode)!
                     let result = response.data
+                    print(statusCode)
                     if idApp=="1087083"{
                         if statusCode == 202 {
                             self.lLabel.text = "request"
-                        } else {
+                        }
+                        if statusCode == 200 {
                             self.lLabel.text = "OK"
                         }
                     } else {
                         if statusCode == 202 {
                             self.rLabel.text = "request"
-                        } else {
+                        }
+                        if statusCode == 200 {
                             self.rLabel.text = "OK"
                         }
                     }
                         if req < 10 {
                             switch statusCode {
-                            case 202: req += 1; DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                self.request(idApp: idApp, dateString: dateString)}
+                            case 202: req += 1; DispatchQueue.main.asyncAfter(deadline: .now() + 3) {self.request(idApp: idApp, dateString: dateString)}
                             case 200: req = 0; self.jsonCount(result: result!, idApp: idApp); self.resulView()
                             default: break
-                            }
-                        }
-           }
+                             }
+                     }
+              }
     }
     
     func jsonCount(result:Data, idApp:String) {
@@ -134,16 +157,21 @@ class ViewController: UIViewController {
     }
     func resulView() {
     if rLabel.text == "OK" && lLabel.text == "OK" {
-    today.isEnabled = true
+        today.isEnabled = true
         picker.isEnabled = true
-    self.refreshControl.endRefreshing()
+        self.refreshControl.endRefreshing()
         self.result.text = biFlagString + hexFlagString
         self.countRes.text = String(biCountry + hexCountry)
+        if (WCSession.default.isReachable) {
+            let messageToWatch = ["Flags": "\(biFlagString)\(hexFlagString)","Count":"\(String(biCountry + hexCountry))"]
+            WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
+        }
     } else {
             result.text = ""
             countRes.text = ""
         }
      }
+    
     func components(date:Date){
         let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
         let months:String
@@ -167,34 +195,48 @@ class ViewController: UIViewController {
 
     @objc func datePicker(_ sender: UIDatePicker) {
         components(date: sender.date)
+        picker.maximumDate = Date()
         result.text = "⇩"
         countRes.text = ""
         self.lLabel.text = ""
         self.rLabel.text = ""
     }
+    
     @objc func refresh() {
         req = 0
+        resetButton.isEnabled = false
         self.result.text = ""
         self.countRes.text = ""
-        self.lLabel.text = "request"
-        self.rLabel.text = "request"
         today.isEnabled = false
         picker.isEnabled = false
         self.refreshControl.beginRefreshing()
-         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.request(idApp: idAppBinatrix, dateString: dateString)
+            self.lLabel.text = "request"
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.resetButton.isEnabled = true
             self.request(idApp: idAppHexastar, dateString: dateString)
+            self.rLabel.text = "request"
         }
     }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if (WCSession.isSupported()) {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+        }
+        func session(_ session: WCSession, didReceiveMessage messageToPhone: [String : Any]) {
+            print("toPhone")
+        }
         putToken()
         result.text = "⇩"
-        lLabel.text=""
-        rLabel.text=""
+        lLabel.text = ""
+        rLabel.text = ""
+        resetButton.isEnabled = false
         scroll.alwaysBounceVertical = true
         scroll.bounces  = true
         refreshControl = UIRefreshControl()
@@ -203,7 +245,7 @@ class ViewController: UIViewController {
         components(date: Date())
         picker.addTarget(self, action: #selector(datePicker(_:)), for: .valueChanged)
      }
-    }
+}
 
 
 
