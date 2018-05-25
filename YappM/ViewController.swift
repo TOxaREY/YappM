@@ -29,20 +29,8 @@ let idAppBinatrix = "1087083"
 let idAppHexastar = "1537733"
 
 
-class ViewController: UIViewController, WCSessionDelegate {
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        
-    }
+class ViewController: UIViewController {
     
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        
-    }
-    
-    func sessionDidDeactivate(_ session: WCSession) {
-        
-    }
-    
-
     var refreshControl:UIRefreshControl!
     
     @IBOutlet weak var lLabel: UILabel!
@@ -52,11 +40,8 @@ class ViewController: UIViewController, WCSessionDelegate {
     @IBOutlet weak var countRes: UILabel!
     @IBOutlet weak var resetButton: UIButton!
     @IBAction func reset(_ sender: Any) {
-        Alamofire.SessionManager.default.session.getTasksWithCompletionHandler { (sessionDataTask, uploadData, downloadData) in
-            sessionDataTask.forEach { $0.cancel() }
-            uploadData.forEach { $0.cancel() }
-            downloadData.forEach { $0.cancel() }
-        }
+             req = 1000
+        self.result.text = "reset"
     }
     @IBOutlet weak var today: UIButton!
     @IBAction func today(_ sender: UIButton) {
@@ -81,6 +66,23 @@ class ViewController: UIViewController, WCSessionDelegate {
     }
     
     func request(idApp:String,dateString:String) {
+        if req == 1000 {
+            if idApp=="1087083" {
+                self.lLabel.text = "reset"
+            } else {
+                self.rLabel.text = "reset"
+            }
+            if rLabel.text == "reset" && lLabel.text == "reset" {
+                self.result.text = "⇩"
+                self.rLabel.text = ""
+                self.lLabel.text = ""
+                self.refreshControl.endRefreshing()
+                today.isEnabled = true
+                picker.isEnabled = true
+                req = 0
+            }
+        } else {
+               if req < 20 {
         guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = HTTPMethod.get.rawValue
@@ -95,8 +97,7 @@ class ViewController: UIViewController, WCSessionDelegate {
                     }
                     let statusCode = (response.response?.statusCode)!
                     let result = response.data
-                    print(statusCode)
-                    if idApp=="1087083"{
+                    if idApp=="1087083" {
                         if statusCode == 202 {
                             self.lLabel.text = "request"
                         }
@@ -111,14 +112,26 @@ class ViewController: UIViewController, WCSessionDelegate {
                             self.rLabel.text = "OK"
                         }
                     }
-                        if req < 10 {
                             switch statusCode {
-                            case 202: req += 1; DispatchQueue.main.asyncAfter(deadline: .now() + 3) {self.request(idApp: idApp, dateString: dateString)}
-                            case 200: req = 0; self.jsonCount(result: result!, idApp: idApp); self.resulView()
+                            case 202: req += 1; self.result.text = String(req); DispatchQueue.main.asyncAfter(deadline: .now() + 6) {self.request(idApp: idApp, dateString: dateString)}
+                            case 200: self.jsonCount(result: result!, idApp: idApp); self.resulView()
                             default: break
                              }
-                     }
-              }
+                        }
+               } else {
+                            if idApp=="1087083" {
+                                self.lLabel.text = "error"
+                                } else {
+                                   self.rLabel.text = "error"
+                            }
+                            if rLabel.text == "error" && lLabel.text == "error" {
+                                self.result.text = "reload⇩"
+                                self.rLabel.text = ""
+                                self.lLabel.text = ""
+                                self.refreshControl.endRefreshing()
+                           }
+                }
+         }
     }
     
     func jsonCount(result:Data, idApp:String) {
@@ -157,6 +170,7 @@ class ViewController: UIViewController, WCSessionDelegate {
     }
     func resulView() {
     if rLabel.text == "OK" && lLabel.text == "OK" {
+        req = 0
         today.isEnabled = true
         picker.isEnabled = true
         self.refreshControl.endRefreshing()
@@ -166,11 +180,8 @@ class ViewController: UIViewController, WCSessionDelegate {
             let messageToWatch = ["Flags": "\(biFlagString)\(hexFlagString)","Count":"\(String(biCountry + hexCountry))"]
             WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
         }
-    } else {
-            result.text = ""
-            countRes.text = ""
-        }
-     }
+    }
+}
     
     func components(date:Date){
         let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
@@ -204,8 +215,10 @@ class ViewController: UIViewController, WCSessionDelegate {
     
     @objc func refresh() {
         req = 0
+        lLabel.text = ""
+        rLabel.text = ""
         resetButton.isEnabled = false
-        self.result.text = ""
+        self.result.text = "start"
         self.countRes.text = ""
         today.isEnabled = false
         picker.isEnabled = false
@@ -214,7 +227,7 @@ class ViewController: UIViewController, WCSessionDelegate {
             self.request(idApp: idAppBinatrix, dateString: dateString)
             self.lLabel.text = "request"
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             self.resetButton.isEnabled = true
             self.request(idApp: idAppHexastar, dateString: dateString)
             self.rLabel.text = "request"
@@ -224,14 +237,6 @@ class ViewController: UIViewController, WCSessionDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (WCSession.isSupported()) {
-            let session = WCSession.default
-            session.delegate = self
-            session.activate()
-        }
-        func session(_ session: WCSession, didReceiveMessage messageToPhone: [String : Any]) {
-            print("toPhone")
-        }
         putToken()
         result.text = "⇩"
         lLabel.text = ""

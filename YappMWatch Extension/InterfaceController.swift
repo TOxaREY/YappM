@@ -10,43 +10,40 @@ import WatchKit
 import Foundation
 import WatchConnectivity
 
+var i = 0
 
-class InterfaceController: WKInterfaceController, WCSessionDelegate {
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        
-    }
+class InterfaceController: WKInterfaceController {
 
+    @IBOutlet var redButtonOut: WKInterfaceButton!
     @IBAction func redButton() {
+        i += 1
+        if i == 1 {
+        redButtonOut.setBackgroundColor(.green)
+        } else {
+            redButtonOut.setBackgroundColor(.red)
+            i = 0
+        }
+
         if (WCSession.default.isReachable) {
-            let messageToPhone = ["Welcome": "Hello"]
+            let messageToPhone = ["command": "watch"]
             WCSession.default.sendMessage(messageToPhone, replyHandler: nil)
         }
+
     }
     @IBOutlet var flagPick: WKInterfaceLabel!
     @IBOutlet var resultCount: WKInterfaceLabel!
     
-    func session(_ session: WCSession, didReceiveMessage messageToWatch: [String : Any]) {
-        WKInterfaceDevice().play(.notification)
-        flagPick.setText(messageToWatch["Flags"] as? String)
-        resultCount.setText(messageToWatch["Count"] as? String)
-    }
     
 
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
     }
-    
+
     override func willActivate() {
         super.willActivate()
-        if WCSession.isSupported() {
-            let session = WCSession.default
-            session.delegate = self
-            session.activate()
-        }
     }
     
     override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
 

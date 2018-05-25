@@ -8,16 +8,31 @@
 
 import UIKit
 import UserNotifications
-
+import WatchConnectivity
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
+class AppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
     var window: UIWindow?
-
-
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {}
+    func sessionDidBecomeInactive(_ session: WCSession) {}
+    func sessionDidDeactivate(_ session: WCSession) {}
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         registerForPushNotifications()
+        if (WCSession.isSupported()) {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+            if session.isPaired != true {
+                print("Apple Watch is not paired")
+            }
+            if session.isWatchAppInstalled != true {
+                print("WatchKit app is not installed")
+            }
+        } else {
+            print("WatchConnectivity is not supported on this device")
+        }
         return true
     }
 
@@ -72,6 +87,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register: \(error)")
     }
+
+    func session(_ session: WCSession, didReceiveMessage messageToPhone: [String : Any]) {
+            let viewController = self.window?.rootViewController as! ViewController
+            viewController.refresh()
+        }
 
 }
 

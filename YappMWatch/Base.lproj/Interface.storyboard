@@ -29,6 +29,7 @@
                     </items>
                     <connections>
                         <outlet property="flagPick" destination="p5K-cA-okg" id="27h-8f-dNj"/>
+                        <outlet property="redButtonOut" destination="Nmq-90-IwK" id="Uoc-vu-eY0"/>
                         <outlet property="resultCount" destination="hQE-Uf-01U" id="Sql-Ab-s9V"/>
                     </connections>
                 </controller>
