@@ -90,8 +90,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
 
     func session(_ session: WCSession, didReceiveMessage messageToPhone: [String : Any]) {
             let viewController = self.window?.rootViewController as! ViewController
+        if messageToPhone["command"] as? String == "request" {
             viewController.refresh()
         }
-
+        if messageToPhone["command"] as? String == "reset" {
+            viewController.reset()
+        }
+    }
 }
 

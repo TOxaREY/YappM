@@ -20,13 +20,16 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, WCSessionDelegate {
         }
     }
     func session(_ session: WCSession, didReceiveMessage messageToWatch: [String : Any]) {
-        
-          WKInterfaceDevice().play(.notification)
-
-
-//               .resultCount.setText(messageToWatch["Count"] as? String)
-//               .flagPick.setText(messageToWatch["Flags"] as? String)
-        
+        if messageToWatch["command"] as? String == "reset" {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "resetButtonActive"), object: nil)
+        }
+        if messageToWatch["command"] as? String == "resetOff" {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "resetButtonDeactive"), object: nil)
+        }
+        if messageToWatch["Count"] as? String != nil {
+        WKInterfaceDevice().play(.notification)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "notifToInterContr"), object: nil, userInfo: ["flags": messageToWatch["Flags"] as? String as Any, "count": messageToWatch["Count"] as? String as Any])
+       }
     }
     func applicationDidBecomeActive() {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.

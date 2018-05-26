@@ -40,8 +40,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var countRes: UILabel!
     @IBOutlet weak var resetButton: UIButton!
     @IBAction func reset(_ sender: Any) {
-             req = 1000
-        self.result.text = "reset"
+        reset()
+    }
+    func reset() {
+        req = 1000
+        result.text = "reset"
+        resetButton.isEnabled = false
     }
     @IBOutlet weak var today: UIButton!
     @IBAction func today(_ sender: UIButton) {
@@ -68,18 +72,22 @@ class ViewController: UIViewController {
     func request(idApp:String,dateString:String) {
         if req == 1000 {
             if idApp=="1087083" {
-                self.lLabel.text = "reset"
+                lLabel.text = "reset"
             } else {
-                self.rLabel.text = "reset"
+                rLabel.text = "reset"
             }
-            if rLabel.text == "reset" && lLabel.text == "reset" {
-                self.result.text = "⇩"
-                self.rLabel.text = ""
-                self.lLabel.text = ""
-                self.refreshControl.endRefreshing()
+            if  rLabel.text == "reset" && lLabel.text == "reset" {
+                result.text = "⇩"
+                rLabel.text = ""
+                lLabel.text = ""
+                refreshControl.endRefreshing()
                 today.isEnabled = true
                 picker.isEnabled = true
                 req = 0
+                if (WCSession.default.isReachable) {
+                    let messageToWatch = ["command": "resetOff"]
+                    WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
+                }
             }
         } else {
                if req < 20 {
@@ -120,15 +128,18 @@ class ViewController: UIViewController {
                         }
                } else {
                             if idApp=="1087083" {
-                                self.lLabel.text = "error"
+                                lLabel.text = "error"
                                 } else {
-                                   self.rLabel.text = "error"
+                                   rLabel.text = "error"
                             }
                             if rLabel.text == "error" && lLabel.text == "error" {
-                                self.result.text = "reload⇩"
-                                self.rLabel.text = ""
-                                self.lLabel.text = ""
-                                self.refreshControl.endRefreshing()
+                                resetButton.isEnabled = false
+                                result.text = "reload⇩"
+                                rLabel.text = ""
+                                lLabel.text = ""
+                                today.isEnabled = true
+                                picker.isEnabled = true
+                                refreshControl.endRefreshing()
                            }
                 }
          }
@@ -173,9 +184,10 @@ class ViewController: UIViewController {
         req = 0
         today.isEnabled = true
         picker.isEnabled = true
-        self.refreshControl.endRefreshing()
-        self.result.text = biFlagString + hexFlagString
-        self.countRes.text = String(biCountry + hexCountry)
+        resetButton.isEnabled = false
+        refreshControl.endRefreshing()
+        result.text = biFlagString + hexFlagString
+        countRes.text = String(biCountry + hexCountry)
         if (WCSession.default.isReachable) {
             let messageToWatch = ["Flags": "\(biFlagString)\(hexFlagString)","Count":"\(String(biCountry + hexCountry))"]
             WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
@@ -209,8 +221,8 @@ class ViewController: UIViewController {
         picker.maximumDate = Date()
         result.text = "⇩"
         countRes.text = ""
-        self.lLabel.text = ""
-        self.rLabel.text = ""
+        lLabel.text = ""
+        rLabel.text = ""
     }
     
     @objc func refresh() {
@@ -218,11 +230,11 @@ class ViewController: UIViewController {
         lLabel.text = ""
         rLabel.text = ""
         resetButton.isEnabled = false
-        self.result.text = "start"
-        self.countRes.text = ""
+        result.text = "start"
+        countRes.text = ""
         today.isEnabled = false
         picker.isEnabled = false
-        self.refreshControl.beginRefreshing()
+        refreshControl.beginRefreshing()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.request(idApp: idAppBinatrix, dateString: dateString)
             self.lLabel.text = "request"
@@ -231,6 +243,10 @@ class ViewController: UIViewController {
             self.resetButton.isEnabled = true
             self.request(idApp: idAppHexastar, dateString: dateString)
             self.rLabel.text = "request"
+            if (WCSession.default.isReachable) {
+                let messageToWatch = ["command": "reset"]
+                WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
+            }
         }
     }
     
