@@ -72,9 +72,19 @@ class ViewController: UIViewController {
     func request(idApp:String,dateString:String) {
         if req == 1000 {
             if idApp=="1087083" {
+                if rLabel.text == "OK" || rLabel.text == "error" {
+                    rLabel.text = "reset"
+                    lLabel.text = "reset"
+                } else {
                 lLabel.text = "reset"
+                }
             } else {
-                rLabel.text = "reset"
+                if lLabel.text == "OK" || lLabel.text == "error" {
+                    lLabel.text = "reset"
+                    rLabel.text = "reset"
+                } else {
+                    rLabel.text = "reset"
+                }
             }
             if  rLabel.text == "reset" && lLabel.text == "reset" {
                 result.text = "⇩"
