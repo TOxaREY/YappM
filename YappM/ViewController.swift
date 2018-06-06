@@ -123,6 +123,7 @@ class ViewController: UIViewController {
                             self.lLabel.text = "OK"
                         }
                     } else {
+                        self.resetButton.isEnabled = true
                         if statusCode == 202 {
                             self.rLabel.text = "request"
                         }
@@ -175,7 +176,11 @@ class ViewController: UIViewController {
                     country.append(isoJson.data[i].country_iso_code)
                 }
                 for i in 0...count - 1 {
+                    if country[i] == "" {
+                        flagString.append("\u{1F3F3}" + "\u{FE0F}" + "\u{200D}" + "\u{1F308}")
+                    } else {
                     flagString.append(letters[String(country[i].first!)]! + letters[String(country[i].last!)]! + " ")
+                  }
                 }
                 if idApp == "1087083"{
                   biFlagString += flagString
@@ -250,7 +255,6 @@ class ViewController: UIViewController {
             self.lLabel.text = "request"
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            self.resetButton.isEnabled = true
             self.request(idApp: idAppHexastar, dateString: dateString)
             self.rLabel.text = "request"
             if (WCSession.default.isReachable) {
