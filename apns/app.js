@@ -1,15 +1,15 @@
 var apn = require('apn');
 var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
-var allflags = [];
-var biflag = [];
-var hexflag = [];
+var allflags = '';
+var biflag = '';
+var hexflag = '';
 var alljsoncount = 0;
 var bicount = 0;
 var hexcount = 0;
 var checkcount = 0;
+var checkflags = '';
 var countrequest1 = 0;
 var countrequest2 = 0;
-var sch = 0;
 var app = '';
 var letters = {A:"\u{1F1E6}",B:"\u{1F1E7}",C:"\u{1F1E8}",D:"\u{1F1E9}",E:"\u{1F1EA}",F:"\u{1F1EB}",G:"\u{1F1EC}",H:"\u{1F1ED}",I:"\u{1F1EE}",J:"\u{1F1EF}",K:"\u{1F1F0}",L:"\u{1F1F1}",M:"\u{1F1F2}",N:"\u{1F1F3}",O:"\u{1F1F4}",P:"\u{1F1F5}",Q:"\u{1F1F6}",R:"\u{1F1F7}",S:"\u{1F1F8}",T:"\u{1F1F9}",U:"\u{1F1FA}",V:"\u{1F1FB}",W:"\u{1F1FC}",X:"\u{1F1FD}",Y:"\u{1F1FE}",Z:"\u{1F1FF}"};
 var deviceToken = '';
@@ -111,20 +111,25 @@ var timerSend = setInterval(function() {
 	var date2 = new Date();
 	allflags = biflag + hexflag;
 	alljsoncount = bicount + hexcount;
-  console.log('check ' + date2);
+  var checkflagsarray = checkflags.split(' ');
+  checkflagsarray.sort();
+  var allflagsarray = allflags.split(' ');
+  allflagsarray.sort();
+
+  console.log('request ' + date2);
   console.log(alljsoncount);
   console.log(allflags);
-  if (alljsoncount != 0) {
-    console.log('check ' + checkcount);
+  console.log('check ' + checkcount);
+  
     if (checkcount < alljsoncount) {
-      notif(allflags,alljsoncount,'int.aiff',deviceToken);
-      sch = 0;
-     }
-  } else { 
-    if (sch == 0) {
-    notif('сброс',0,'silence.aiff',deviceToken);
-    sch += 1;
-    }};
+       notif(allflags,alljsoncount,'int.aiff',deviceToken)};
+
+    if (checkcount == alljsoncount && checkflagsarray.join('') != allflagsarray.join('')) {
+       notif(allflags,alljsoncount,'int.aiff',deviceToken)}; 
+
+  	if (checkcount > alljsoncount) {
+       notif(allflags,0,'silence.aiff',deviceToken)};
+
 }, 1200000);
 // Function request if 200
 function request200(xhr, countrequest, app) {
@@ -152,9 +157,9 @@ function request200(xhr, countrequest, app) {
        var flags = [];
         for (i = 0; i < jsoncount; i++) {
           if (jsoniso[i] == '') {
-             flags += ("\u{1F3F3}" + "\u{FE0F}" + "\u{200D}" + "\u{1F308}");
+             flags += ("\u{1F3F3}" + "\u{FE0F}" + "\u{200D}" + "\u{1F308}" + " ");
           } else {
-        flags += (letters[jsoniso[i].charAt(0)] + letters[jsoniso[i].charAt(1)]);
+        flags += (letters[jsoniso[i].charAt(0)] + letters[jsoniso[i].charAt(1)] + " ");
         }};
                if (app == 'bi') {
                   biflag += flags;
@@ -201,7 +206,8 @@ apnProvider.send(notification, deviceToken).then(function(result) {
     console.log(deviceToken);
     console.log(result);
 apnProvider.shutdown();
-checkcount = alljsoncount;  
+checkcount = alljsoncount;
+checkflags = allflags;  
 })
 };
 
