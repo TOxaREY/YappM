@@ -80,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
         }
         let token = tokenParts.joined()
         UserDefaults.standard.set(token, forKey: "TokenDevice")
-//        print("Device Token: \(token)")
+        print("Device Token: \(token)")
     }
     
     func application(_ application: UIApplication,

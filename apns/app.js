@@ -36,6 +36,7 @@ var today = year + "-" + month + "-" + day;
 var https1 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1087083&date_since=" + today + "%2000%3A00%3A00&date_until=" + today + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
 var https2 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1537733&date_since=" + today + "%2000%3A00%3A00&date_until=" + today + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
 var httpT = "http://193.124.184.149:8000/token/5af49fe5da783d09cb0bd947";
+
 var xhrT = new XMLHttpRequest();
 var xhr1 = new XMLHttpRequest();
 var xhr2 = new XMLHttpRequest();

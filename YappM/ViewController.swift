@@ -61,7 +61,7 @@ class ViewController: UIViewController {
     func putToken()  {
         if UserDefaults.standard.string(forKey: "TokenDevice") != nil {
             let params: [String: Any] = ["tokenDevice" : UserDefaults.standard.string(forKey: "TokenDevice")!]
-            Alamofire.request("http://193.124.184.149:8000/token/5af49fe5da783d09cb0bd947", method: .put, parameters: params).responseJSON { (response) in
+            Alamofire.request("http://95.31.12.252:8000/token/5b7556e05029c080cd04e160", method: .put, parameters: params).responseJSON { (response) in
                 guard response.result.isSuccess else{return}
                 let val = (response.value)!
                 print(val)
