@@ -22,6 +22,9 @@ struct  Datas:Decodable {
 struct  Isos:Decodable {
     let country_iso_code:String
 }
+struct Total:Decodable {
+    let total:String
+}
 
 let letters = ["A":"\u{1F1E6}","B":"\u{1F1E7}","C":"\u{1F1E8}","D":"\u{1F1E9}","E":"\u{1F1EA}","F":"\u{1F1EB}","G":"\u{1F1EC}","H":"\u{1F1ED}","I":"\u{1F1EE}","J":"\u{1F1EF}","K":"\u{1F1F0}","L":"\u{1F1F1}","M":"\u{1F1F2}","N":"\u{1F1F3}","O":"\u{1F1F4}","P":"\u{1F1F5}","Q":"\u{1F1F6}","R":"\u{1F1F7}","S":"\u{1F1F8}","T":"\u{1F1F9}","U":"\u{1F1FA}","V":"\u{1F1FB}","W":"\u{1F1FC}","X":"\u{1F1FD}","Y":"\u{1F1FE}","Z":"\u{1F1FF}"]
 var dateString = String()
@@ -61,11 +64,29 @@ class ViewController: UIViewController {
     func putToken()  {
         if UserDefaults.standard.string(forKey: "TokenDevice") != nil {
             let params: [String: Any] = ["tokenDevice" : UserDefaults.standard.string(forKey: "TokenDevice")!]
-            Alamofire.request("http://95.31.12.252:8000/token/5b7556e05029c080cd04e160", method: .put, parameters: params).responseJSON { (response) in
+            Alamofire.request("http://33.33.33.33:8000/token/5b7784e05030c080cd04e160", method: .put, parameters: params).responseJSON { (response) in
                 guard response.result.isSuccess else{return}
                 let val = (response.value)!
-                print(val)
+                print("put token \(val)")
             }
+        }
+    }
+    func getTotal() {
+        Alamofire.request("http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b", method: .get).responseJSON
+            { (response) in
+            guard response.result.isSuccess else{return}
+            let result = response.data
+                do {
+                    let totalJson = try JSONDecoder().decode(Total.self, from: result!)
+                    let total = totalJson.total
+                    print("get total \(total)")
+                    if Int(total) != nil {
+                    UserDefaults.standard.set(total, forKey: "TotalCount")
+                  }
+                }
+                catch {
+                    print("error JSON")
+                }
         }
     }
     
@@ -202,10 +223,18 @@ class ViewController: UIViewController {
         resetButton.isEnabled = false
         refreshControl.endRefreshing()
         result.text = biFlagString + hexFlagString
-        countRes.text = String(biCountry + hexCountry)
+        if UserDefaults.standard.string(forKey: "Today") == dateString {
+        countRes.text = String(biCountry + hexCountry) + "/" + String(Int(UserDefaults.standard.string(forKey: "TotalCount")!)! + biCountry + hexCountry)
+            if (WCSession.default.isReachable) {
+                let messageToWatch = ["Flags": "\(biFlagString)\(hexFlagString)","Count":"\(String(biCountry + hexCountry) + "/" + String(Int(UserDefaults.standard.string(forKey: "TotalCount")!)! + biCountry + hexCountry))"]
+                WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
+            }
+        } else {
+            countRes.text = String(biCountry + hexCountry)
         if (WCSession.default.isReachable) {
             let messageToWatch = ["Flags": "\(biFlagString)\(hexFlagString)","Count":"\(String(biCountry + hexCountry))"]
             WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
+          }
         }
     }
 }
@@ -268,6 +297,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         putToken()
+        getTotal()
         result.text = "⇩"
         lLabel.text = ""
         rLabel.text = ""
@@ -278,6 +308,7 @@ class ViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(refresh), for: UIControlEvents.valueChanged)
         scroll.addSubview(refreshControl)
         components(date: Date())
+        UserDefaults.standard.set(dateString, forKey: "Today")
         picker.addTarget(self, action: #selector(datePicker(_:)), for: .valueChanged)
      }
 }

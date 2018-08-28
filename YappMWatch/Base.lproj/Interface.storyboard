@@ -17,7 +17,7 @@
                         <label width="1" alignment="center" verticalAlignment="bottom" textAlignment="center" numberOfLines="0" id="p5K-cA-okg">
                             <fontDescription key="font" type="system" pointSize="30"/>
                         </label>
-                        <label width="62" alignment="center" verticalAlignment="bottom" textAlignment="center" id="hQE-Uf-01U">
+                        <label width="62" alignment="center" verticalAlignment="bottom" textAlignment="center" minimumScaleFactor="0.5" id="hQE-Uf-01U">
                             <fontDescription key="font" type="system" pointSize="35"/>
                         </label>
                         <group width="1" alignment="center" verticalAlignment="bottom" id="Edp-jx-wGh">

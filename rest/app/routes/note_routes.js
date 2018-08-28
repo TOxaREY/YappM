@@ -26,7 +26,13 @@ module.exports = function(app, db) {
       app.put ('/token/:id', (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
-    const note = { tokenDevice: req.body.tokenDevice };
+    console.log(Object.keys(req.body));
+    if (Object.keys(req.body) == 'tokenDevice'){
+    var note = { tokenDevice: req.body.tokenDevice };
+    };
+    if (Object.keys(req.body) == 'total'){
+    var note = { total: req.body.total };
+    };
     db.collection('token').update(details, note, (err, result) => {
       if (err) {
           res.send({'error':'An error has occurred'});
@@ -35,8 +41,13 @@ module.exports = function(app, db) {
       } 
     });
   });
-app.post('/token', (req, res) => {
+           app.post('/token', (req, res) => {
+    if (Object.keys(req.body) == 'tokenDevice'){
     const note = { tokenDevice: req.body.tokenDevice };
+    };
+    if (Object.keys(req.body) == 'total'){
+    const note = { total: req.body.total };
+    };
     db.collection('token').insert(note, (err, result) => {
       if (err) { 
         res.send({ 'error': 'An error has occurred' }); 

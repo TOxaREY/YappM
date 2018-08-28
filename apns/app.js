@@ -6,82 +6,241 @@ var hexflag = '';
 var alljsoncount = 0;
 var bicount = 0;
 var hexcount = 0;
+var bicountYes = 0;
+var hexcountYes = 0;
+var alljsoncountYes = 0;
 var checkcount = 0;
 var checkflags = '';
 var countrequest1 = 0;
 var countrequest2 = 0;
+var countrequestYes = 0;
 var app = '';
 var letters = {A:"\u{1F1E6}",B:"\u{1F1E7}",C:"\u{1F1E8}",D:"\u{1F1E9}",E:"\u{1F1EA}",F:"\u{1F1EB}",G:"\u{1F1EC}",H:"\u{1F1ED}",I:"\u{1F1EE}",J:"\u{1F1EF}",K:"\u{1F1F0}",L:"\u{1F1F1}",M:"\u{1F1F2}",N:"\u{1F1F3}",O:"\u{1F1F4}",P:"\u{1F1F5}",Q:"\u{1F1F6}",R:"\u{1F1F7}",S:"\u{1F1F8}",T:"\u{1F1F9}",U:"\u{1F1FA}",V:"\u{1F1FB}",W:"\u{1F1FC}",X:"\u{1F1FD}",Y:"\u{1F1FE}",Z:"\u{1F1FF}"};
 var deviceToken = '';
+var totalCount = '';
+var totalCountTod = '';
+var finishFlag = "\u{1F3C1}";
+var check = '';
 
+//Start req & check
+var today = new Date();
+console.log('start requests ' + today);
+request(today, 'today');
+checkYes();
+// Repeats checking yesterday
+var yesterdayCheck = setInterval(function() {
+checkYes();
+},
+86400000);
 // Repeats send
 var timerReq = setInterval(function() {
 // Add current date	
-var date = new Date();
-console.log('start ' + date);
-var year = date.getFullYear().toString();
-var dayinit = date.getDate().toString();
+var today = new Date();
+console.log('start requests ' + today);
+request(today, 'today');
+}, 1080000);
+// Processing data and send
+var timerSend = setInterval(function() {
+	var date2 = new Date();
+	allflags = biflag + hexflag;
+	alljsoncount = bicount + hexcount;
+  var checkflagsarray = checkflags.split(' ');
+  checkflagsarray.sort();
+  var allflagsarray = allflags.split(' ');
+  allflagsarray.sort();
+
+  console.log('start checking responses ' + date2);
+  console.log('all count ' + alljsoncount);
+  console.log('all flags ' + allflags);
+  console.log('check ' + alljsoncount + ' V ' + checkcount);
+  console.log('total ' + totalCount + ' + ' + alljsoncount);
+  
+    if (checkcount < alljsoncount) {
+       notif(allflags,alljsoncount,'int.aiff',deviceToken,'send')};
+
+    if (checkcount == alljsoncount && checkflagsarray.join('') != allflagsarray.join('')) {
+       notif(allflags,alljsoncount,'int.aiff',deviceToken,'send')}; 
+}, 1200000);
+// Function checking yesterday
+function checkYes() {
+var yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+var now = new Date();
+var timeCheck = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0) - now;
+console.log('start now timer ' + now);
+if (timeCheck < 0) {
+     timeCheck += 86400000;
+}
+setTimeout(function(){
+  request(yesterday, 'yesterday')}, timeCheck);
+setTimeout(function(){
+	      alljsoncountYes = +bicountYes + +hexcountYes + +totalCountTod;
+      console.log('yescount&today ' + alljsoncountYes);
+        notif(finishFlag,alljsoncountYes,'silence.aiff',deviceToken,'yes');
+var data = "total=" + alljsoncountYes;
+var xhrTall = new XMLHttpRequest();
+xhrTall.withCredentials = true;
+xhrTall.open("PUT", "http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b");
+xhrTall.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+xhrTall.setRequestHeader("Cache-Control", "no-cache");
+xhrTall.send(data);
+}, timeCheck += 300000);
+};
+
+// Function convert Date to string
+function stringDate(date) {
+year = date.getFullYear().toString();
+dayinit = date.getDate().toString();
 if (dayinit < 10) {
   var day = "0" + dayinit.toString()
 } else {
       day = dayinit.toString()
 };
-var monthint = date.getMonth() + 1;
+monthint = date.getMonth() + 1;
 if (monthint < 10) {
-	var month = "0" + monthint.toString()
+  month = "0" + monthint.toString()
 } else {
-	    month = monthint.toString()
+      month = monthint.toString()
 };
-var today = year + "-" + month + "-" + day;
-var https1 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1087083&date_since=" + today + "%2000%3A00%3A00&date_until=" + today + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
-var https2 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1537733&date_since=" + today + "%2000%3A00%3A00&date_until=" + today + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
-var httpT = "http://193.124.184.149:8000/token/5af49fe5da783d09cb0bd947";
-
-var xhrT = new XMLHttpRequest();
-var xhr1 = new XMLHttpRequest();
-var xhr2 = new XMLHttpRequest();
+return year + "-" + month + "-" + day};
+// Function requests
+function request(date, day){
+if (day == 'today'){
+https1 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1087083&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
+https2 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1537733&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
+httpTd = "http://33.33.33.33:8000/token/5b7784e05030c080cd04e160";
+httpTl = "http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b";
+};
+if (day == 'yesterday'){
+https11 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1087083&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
+https22 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1537733&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
+httpTll = "http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b";
+};
+if (day == 'today'){  
+xhr1 = new XMLHttpRequest();
+xhr2 = new XMLHttpRequest();
+xhrTd = new XMLHttpRequest();
+xhrTl = new XMLHttpRequest();
+};
+if (day == 'yesterday'){
+xhr11 = new XMLHttpRequest();
+xhr22 = new XMLHttpRequest();
+xhrTll = new XMLHttpRequest();
+};
 // Request app1
 // First and second and token request   
-// Config first and second and token request get
+// Config first and second and token and total request get
+if (day == 'today'){
 xhr1.open('GET', https1, false);
 xhr2.open('GET', https2, false);
-xhrT.open('GET', httpT, false);
+xhrTd.open('GET', httpTd, false);
+xhrTl.open('GET', httpTl, false);
+};
+if (day == 'yesterday'){
+xhr11.open('GET', https11, false);
+xhr22.open('GET', https22, false);
+xhrTll.open('GET', httpTll, false);
+};  
 // Add header
+if (day == 'today'){
 xhr1.setRequestHeader('Cache-Control', 'max-age=60');
 xhr2.setRequestHeader('Cache-Control', 'max-age=60');
+};
+if (day == 'yesterday'){
+xhr11.setRequestHeader('Cache-Control', 'max-age=60');
+xhr22.setRequestHeader('Cache-Control', 'max-age=60');
+};	
 // Add timeout async request
+if (day == 'today'){
 xhr1.timeout = 60000;
 xhr2.timeout = 60000;
-xhrT.timeout = 60000;
+xhrTd.timeout = 60000;
+xhrTl.timeout = 60000;
+};
+if (day == 'yesterday'){
+xhr11.timeout = 60000;
+xhr22.timeout = 60000;
+xhrTll.timeout = 60000;
+};
 // Send request
+if (day == 'today'){
 xhr1.send();
 xhr2.send();
-xhrT.send();
-// Token json
-if (xhrT.status == 200) {
-var jsonToken = JSON.parse(xhrT.responseText);
-deviceToken = jsonToken.tokenDevice;
+xhrTd.send();
+xhrTl.send();
 };
+if (day == 'yesterday'){
+xhr11.send();
+xhr22.send();
+xhrTll.send();
+};
+if (day == 'today'){
+// Token json
+if (xhrTd.status == 200) {
+jsonPars = JSON.parse(xhrTd.responseText);
+deviceToken = jsonPars.tokenDevice;
+};
+// Total json
+if (xhrTl.status == 200) {
+jsonTotal = JSON.parse(xhrTl.responseText);
+totalCount = jsonTotal.total;
+};
+};
+if (day == 'yesterday'){
+// Total json
+if (xhrTll.status == 200) {
+jsonTotalTod = JSON.parse(xhrTll.responseText);
+totalCountTod = jsonTotalTod.total;
+};
+};
+
+if (day == 'today'){
 // App1
 if (xhr1.status == 202) {
-  console.log('start 202');
+  console.log('start 202 bi');
 secondrequest(xhr1, https1, countrequest1, 'bi');
 } else {
     if (xhr1.status == 200) {
 request200(xhr1, countrequest1, 'bi');
 } else {
-  console.log(xhr1.responseText)
+  console.log('bi start req error ' + xhr1.responseText)
 }};
 //App2
 if (xhr2.status == 202) {
-  console.log('start 202');
+  console.log('start 202 hex');
 secondrequest(xhr2, https2, countrequest2, 'hex');
 } else {
     if (xhr2.status == 200) {
 request200(xhr2, countrequest2, 'hex');
 } else {
-  console.log(xhr2.responseText)
+  console.log('hex start req error ' + xhr2.responseText)
+}}};
+
+
+if (day == 'yesterday'){
+// App1
+if (xhr11.status == 202) {
+  console.log('startYes 202 bi');
+secondrequestyes(xhr11, https11, countrequestYes, 'bi');
+} else {
+    if (xhr11.status == 200) {
+request200yes(xhr11, countrequestYes, 'bi');
+} else {
+  console.log('bi startYes req error ' + xhr11.responseText)
 }};
+//App2
+if (xhr22.status == 202) {
+  console.log('startYes 202 hex');
+secondrequestyes(xhr22, https22, countrequestYes, 'hex');
+} else {
+    if (xhr22.status == 200) {
+request200yes(xhr22, countrequestYes, 'hex');
+} else {
+  console.log('hex startYes req error ' + xhr22.responseText)
+}}};
+};
+
+
 // Function second request    
 function secondrequest(xhr, https, countrequest, app) {
 // Timeout start
@@ -94,55 +253,29 @@ xhr.timeout = 60000;
 xhr.send();
 if (countrequest < 5) {
   if (xhr.status == 202) {
-  	console.log('202 ' + countrequest);
+    console.log('202 '+ app + countrequest);
 countrequest += 1;
 secondrequest(xhr, https, countrequest, app);
 } else {
     if (xhr.status == 200) {
 request200(xhr, countrequest, app);
 } else {
-  console.log(xhr.responseText);
+  console.log(app + 'req error ' + xhr.responseText);
 }}} else {
   countrequest = 0;
 }}, 10000);
 };
-}, 1080000);
-// Processing data and send
-var timerSend = setInterval(function() {
-	var date2 = new Date();
-	allflags = biflag + hexflag;
-	alljsoncount = bicount + hexcount;
-  var checkflagsarray = checkflags.split(' ');
-  checkflagsarray.sort();
-  var allflagsarray = allflags.split(' ');
-  allflagsarray.sort();
-
-  console.log('request ' + date2);
-  console.log(alljsoncount);
-  console.log(allflags);
-  console.log('check ' + checkcount);
-  
-    if (checkcount < alljsoncount) {
-       notif(allflags,alljsoncount,'int.aiff',deviceToken)};
-
-    if (checkcount == alljsoncount && checkflagsarray.join('') != allflagsarray.join('')) {
-       notif(allflags,alljsoncount,'int.aiff',deviceToken)}; 
-
-  	if (checkcount > alljsoncount) {
-       notif(allflags,0,'silence.aiff',deviceToken)};
-
-}, 1200000);
 // Function request if 200
 function request200(xhr, countrequest, app) {
-	console.log('200');
-	 if (app == 'bi') {
+  console.log('200 ' + app);
+   if (app == 'bi') {
             biflag = [];
             bicount = 0;
         } else {
             hexflag = [];
             hexcount = 0;
         }
-	countrequest = 0;
+  countrequest = 0;
     var jsonresp = xhr.responseText;
     jsonresp = jsonresp.replace(/\r?\n|\r/g, "");
     jsonresp = jsonresp.substring(1);
@@ -165,19 +298,71 @@ function request200(xhr, countrequest, app) {
                if (app == 'bi') {
                   biflag += flags;
                   bicount += jsoncount;
-                  console.log('bi ' + biflag);
-                  console.log('bi ' + bicount);
+                  console.log('bi flags ' + biflag);
+                  console.log('bi count ' + bicount);
                 } else {
                     hexflag += flags;
                     hexcount += jsoncount;
-                    console.log('hex ' + hexflag);
-                    console.log('hex ' + hexcount);
+                    console.log('hex flags ' + hexflag);
+                    console.log('hex count ' + hexcount);
                 }
       }
     };
-
+// Function request if 200 yes
+function request200yes(xhr, countrequest, app) {
+  console.log('200Yes ' + app);
+   if (app == 'bi') {
+            bicountYes = 0;
+        } else {
+            hexcountYes = 0;
+        }
+  countrequest = 0;
+    var jsonresp = xhr.responseText;
+    jsonresp = jsonresp.replace(/\r?\n|\r/g, "");
+    jsonresp = jsonresp.substring(1);
+    var json = JSON.parse(jsonresp);
+    var jsoncount = json.data.length;
+    if (jsoncount != 0) {
+      var i;
+       var jsoniso = [];
+        for (i = 0; i < jsoncount; i++) {
+        jsoniso.push(json.data[i].country_iso_code)
+        };
+     };
+               if (app == 'bi') {
+                  bicountYes += jsoncount;
+                  console.log('bi countYes ' + bicountYes);
+                } else {
+                    hexcountYes += jsoncount;
+                    console.log('hex countYes ' + hexcountYes);
+                }          
+    };
+// Function second request yes    
+function secondrequestyes(xhr, https, countrequest, app) {
+// Timeout start
+setTimeout(function() {
+// Config second request get
+xhr.open('GET', https, false);
+// Add timeout async request
+xhr.timeout = 60000;
+// Send request
+xhr.send();
+if (countrequest < 20) {
+  if (xhr.status == 202) {
+    console.log('202Yes '+ app + countrequest);
+countrequest += 1;
+secondrequestyes(xhr, https, countrequest, app);
+} else {
+    if (xhr.status == 200) {
+request200yes(xhr, countrequest, app);
+} else {
+  console.log(app + 'reqYes error ' + xhr.responseText);
+}}} else {
+  countrequest = 0;
+}}, 10000);
+};
 // Function notification
-function notif(allflags,alljsoncount,sound,deviceToken) {
+function notif(allflags,alljsoncount,sound,deviceToken,check) {
 // Set up apn with the APNs Auth Key
 var apnProvider = new apn.Provider({  
      token: {
@@ -196,19 +381,34 @@ notification.expiry = Math.floor(Date.now() / 1000) + 3600;
 // Send any extra payload data with the notification which will be accessible to your app in didReceiveRemoteNotification
 notification.payload = {id: 123};
 // Display the following message (the actual notification text, supports emoji)
-notification.alert = allflags+" "+alljsoncount;
+if (check == 'send') {
+	notification.alert = allflags + " " + alljsoncount + "/" + (+alljsoncount + +totalCount);
+}; 
+if (check == 'yes') {
+notification.alert = allflags + " " +totalCount;
+};
 // Set app badge indicator
-notification.badge = alljsoncount;
+if (check == 'send') {
+	notification.badge = alljsoncount;
+}; 
+if (check == 'yes') {
+notification.badge = 0;
+};
 // Play ping.aiff sound when the notification is received
 notification.sound = sound;
 // Actually send the notification
 apnProvider.send(notification, deviceToken).then(function(result) {  
     // Check the result for any failed devices
-    console.log(deviceToken);
     console.log(result);
 apnProvider.shutdown();
-checkcount = alljsoncount;
-checkflags = allflags;  
+if (check == 'yes') {
+	checkcount = 0;
+    checkflags = '';
+};
+if (check == 'send') {
+  checkcount = alljsoncount;
+    checkflags = allflags;
+}  
 })
 };
 
