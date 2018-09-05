@@ -31,7 +31,7 @@ checkYes();
 var yesterdayCheck = setInterval(function() {
 checkYes();
 },
-86400000);
+90000000);
 // Repeats send
 var timerReq = setInterval(function() {
 // Add current date	
@@ -63,21 +63,22 @@ var timerSend = setInterval(function() {
 }, 1200000);
 // Function checking yesterday
 function checkYes() {
-var yesterday = new Date();
-yesterday.setDate(yesterday.getDate() - 1);
 var now = new Date();
-var timeCheck = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0) - now;
+var timeCheck = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 5, 0, 0) - now;
 console.log('start now timer ' + now);
 if (timeCheck < 0) {
      timeCheck += 86400000;
 }
 setTimeout(function(){
+     var yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
   request(yesterday, 'yesterday')}, timeCheck);
 setTimeout(function(){
-	      alljsoncountYes = +bicountYes + +hexcountYes + +totalCountTod;
+        alljsoncountYes = +bicountYes + +hexcountYes + +totalCountTod;
       console.log('yescount&today ' + alljsoncountYes);
         notif(finishFlag,alljsoncountYes,'silence.aiff',deviceToken,'yes');
 var data = "total=" + alljsoncountYes;
+console.log('send mongo ' + data);
 var xhrTall = new XMLHttpRequest();
 xhrTall.withCredentials = true;
 xhrTall.open("PUT", "http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b");
@@ -295,7 +296,7 @@ function request200(xhr, countrequest, app) {
           } else {
         flags += (letters[jsoniso[i].charAt(0)] + letters[jsoniso[i].charAt(1)] + " ");
         }};
-               if (app == 'bi') {
+                if (app == 'bi') {
                   biflag += flags;
                   bicount += jsoncount;
                   console.log('bi flags ' + biflag);
@@ -385,7 +386,7 @@ if (check == 'send') {
 	notification.alert = allflags + " " + alljsoncount + "/" + (+alljsoncount + +totalCount);
 }; 
 if (check == 'yes') {
-notification.alert = allflags + " " +totalCount;
+notification.alert = allflags + " " +alljsoncount;
 };
 // Set app badge indicator
 if (check == 'send') {
@@ -402,8 +403,10 @@ apnProvider.send(notification, deviceToken).then(function(result) {
     console.log(result);
 apnProvider.shutdown();
 if (check == 'yes') {
-	checkcount = 0;
+  checkcount = 0;
     checkflags = '';
+    alljsoncount = 0;
+    allflags = '';
 };
 if (check == 'send') {
   checkcount = alljsoncount;
