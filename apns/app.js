@@ -405,13 +405,16 @@ apnProvider.shutdown();
 if (check == 'yes') {
   checkcount = 0;
     checkflags = '';
-    alljsoncount = 0;
-    allflags = '';
+    bicount = 0;
+    hexcount = 0;
+    biflag = '';
+    hexflag = '';
+    totalCount = alljsoncountYes;
 };
 if (check == 'send') {
   checkcount = alljsoncount;
     checkflags = allflags;
-}  
+};  
 })
 };
 
