@@ -33,6 +33,9 @@ module.exports = function(app, db) {
     if (Object.keys(req.body) == 'total'){
     var note = { total: req.body.total };
     };
+    if (Object.keys(req.body) == 'max'){
+    var note = { max: req.body.max };
+    };
     db.collection('token').update(details, note, (err, result) => {
       if (err) {
           res.send({'error':'An error has occurred'});
@@ -47,6 +50,9 @@ module.exports = function(app, db) {
     };
     if (Object.keys(req.body) == 'total'){
     const note = { total: req.body.total };
+    };
+    if (Object.keys(req.body) == 'max'){
+    const note = { max: req.body.max };
     };
     db.collection('token').insert(note, (err, result) => {
       if (err) { 

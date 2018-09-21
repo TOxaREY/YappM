@@ -20,7 +20,12 @@ var deviceToken = '';
 var totalCount = '';
 var totalCountTod = '';
 var finishFlag = "\u{1F3C1}";
+var conf = "\u{1F389}";
+var champ = "\u{1F37E}";
 var check = '';
+var maxcount = 0;
+var checkmaxcount = 0;
+var ajcy = 0;
 
 //Start req & check
 var today = new Date();
@@ -74,17 +79,30 @@ setTimeout(function(){
     yesterday.setDate(yesterday.getDate() - 1);
   request(yesterday, 'yesterday')}, timeCheck);
 setTimeout(function(){
-        alljsoncountYes = +bicountYes + +hexcountYes + +totalCountTod;
+        checkmaxcount = +bicountYes + +hexcountYes;
+        ajcy = +bicountYes + +hexcountYes + +totalCountTod;
+        alljsoncountYes = checkmaxcount + "/" + ajcy;
       console.log('yescount&today ' + alljsoncountYes);
         notif(finishFlag,alljsoncountYes,'silence.aiff',deviceToken,'yes');
-var data = "total=" + alljsoncountYes;
-console.log('send mongo ' + data);
+var data = "total=" + ajcy;
 var xhrTall = new XMLHttpRequest();
 xhrTall.withCredentials = true;
-xhrTall.open("PUT", "http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b");
+xhrTall.open("PUT", "http://33.33.33.33:8000/token/5b8294fc39e883f39cde575b");
 xhrTall.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 xhrTall.setRequestHeader("Cache-Control", "no-cache");
 xhrTall.send(data);
+console.log('send mongo ' + data);
+
+if (checkmaxcount > maxcount) {
+var data2 = "max=" + checkmaxcount;
+var xhrMaxx = new XMLHttpRequest();
+xhrMaxx.withCredentials = true;
+xhrMaxx.open("PUT", "http://33.33.33.33:8000/token/5ba48c368389d9d19a055070");
+xhrMaxx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+xhrMaxx.setRequestHeader("Cache-Control", "no-cache");
+xhrMaxx.send(data2);
+console.log('send mongo ' + data2);
+};
 }, timeCheck += 300000);
 };
 
@@ -116,6 +134,7 @@ if (day == 'yesterday'){
 https11 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1087083&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
 https22 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1537733&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
 httpTll = "http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b";
+httpMax = "http://33.33.33.33:8000/token/5ba48c368389d9d19a055070";
 };
 if (day == 'today'){  
 xhr1 = new XMLHttpRequest();
@@ -127,6 +146,7 @@ if (day == 'yesterday'){
 xhr11 = new XMLHttpRequest();
 xhr22 = new XMLHttpRequest();
 xhrTll = new XMLHttpRequest();
+xhrMax = new XMLHttpRequest();
 };
 // Request app1
 // First and second and token request   
@@ -141,6 +161,7 @@ if (day == 'yesterday'){
 xhr11.open('GET', https11, false);
 xhr22.open('GET', https22, false);
 xhrTll.open('GET', httpTll, false);
+xhrMax.open('GET', httpMax, false);
 };  
 // Add header
 if (day == 'today'){
@@ -162,6 +183,7 @@ if (day == 'yesterday'){
 xhr11.timeout = 60000;
 xhr22.timeout = 60000;
 xhrTll.timeout = 60000;
+xhrMax.timeout = 60000;
 };
 // Send request
 if (day == 'today'){
@@ -174,6 +196,7 @@ if (day == 'yesterday'){
 xhr11.send();
 xhr22.send();
 xhrTll.send();
+xhrMax.send();
 };
 if (day == 'today'){
 // Token json
@@ -192,6 +215,11 @@ if (day == 'yesterday'){
 if (xhrTll.status == 200) {
 jsonTotalTod = JSON.parse(xhrTll.responseText);
 totalCountTod = jsonTotalTod.total;
+};
+// Max count
+if (xhrMax.status == 200) {
+jsonMax = JSON.parse(xhrMax.responseText);
+maxcount = jsonMax.max;
 };
 };
 
@@ -383,10 +411,15 @@ notification.expiry = Math.floor(Date.now() / 1000) + 3600;
 notification.payload = {id: 123};
 // Display the following message (the actual notification text, supports emoji)
 if (check == 'send') {
-	notification.alert = allflags + " " + alljsoncount + "/" + (+alljsoncount + +totalCount);
+  notification.alert = allflags + " " + alljsoncount + "/" + (+alljsoncount + +totalCount);
 }; 
 if (check == 'yes') {
-notification.alert = allflags + " " +alljsoncount;
+    if (checkmaxcount > maxcount) {
+        notification.alert = finishFlag + " " + conf + " " + alljsoncount + " " + champ;
+    } else {
+        notification.alert = finishFlag + " " + alljsoncount;
+    };
+
 };
 // Set app badge indicator
 if (check == 'send') {
