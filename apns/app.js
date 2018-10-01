@@ -36,7 +36,7 @@ checkYes();
 var yesterdayCheck = setInterval(function() {
 checkYes();
 },
-90000000);
+86400000);
 // Repeats send
 var timerReq = setInterval(function() {
 // Add current date	
