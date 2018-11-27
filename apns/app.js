@@ -125,14 +125,14 @@ return year + "-" + month + "-" + day};
 // Function requests
 function request(date, day){
 if (day == 'today'){
-https1 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1087083&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
-https2 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1537733&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
+https1 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1087083&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code";
+https2 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1537733&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code";
 httpTd = "http://33.33.33.33:8000/token/5b7784e05030c080cd04e160";
 httpTl = "http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b";
 };
 if (day == 'yesterday'){
-https11 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1087083&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
-https22 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1537733&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA";
+https11 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1087083&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code";
+https22 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1537733&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code";
 httpTll = "http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b";
 httpMax = "http://33.33.33.33:8000/token/5ba48c368389d9d19a055070";
 };
@@ -166,11 +166,15 @@ xhrMax.open('GET', httpMax, false);
 // Add header
 if (day == 'today'){
 xhr1.setRequestHeader('Cache-Control', 'max-age=60');
+xhr1.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA');
 xhr2.setRequestHeader('Cache-Control', 'max-age=60');
+xhr2.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA');
 };
 if (day == 'yesterday'){
 xhr11.setRequestHeader('Cache-Control', 'max-age=60');
+xhr11.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA');
 xhr22.setRequestHeader('Cache-Control', 'max-age=60');
+xhr22.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA');
 };	
 // Add timeout async request
 if (day == 'today'){
