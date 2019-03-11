@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WCSessionDelegate {
     func sessionDidBecomeInactive(_ session: WCSession) {}
     func sessionDidDeactivate(_ session: WCSession) {}
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         registerForPushNotifications()
         if (WCSession.isSupported()) {
             let session = WCSession.default

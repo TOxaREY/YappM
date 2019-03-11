@@ -10,6 +10,15 @@ import UIKit
 import Alamofire
 import WatchConnectivity
 
+extension Date {
+    func days(from date: Date) -> Int {
+        return Calendar.current.dateComponents([.day], from: date, to: self).day ?? 0
+    }
+}
+let dateStart = DateComponents(calendar: .current, year: 2017, month: 10, day: 20, hour: 0, minute: 0).date!
+let currentDateTime = Date()
+let daysFromStart = currentDateTime.days(from: dateStart) + 1
+
 var biCountry = Int()
 var biFlagString = String()
 var hexCountry = Int()
@@ -49,6 +58,7 @@ class ViewController: UIViewController {
         req = 1000
         result.text = "reset"
         resetButton.isEnabled = false
+        resetButton.isHidden = true
     }
     @IBOutlet weak var today: UIButton!
     @IBAction func today(_ sender: UIButton) {
@@ -58,6 +68,7 @@ class ViewController: UIViewController {
         countRes.text = ""
         lLabel.text = ""
         rLabel.text = ""
+        resetButton.isHidden = true
     }
     @IBOutlet weak var picker: UIDatePicker!
 
@@ -223,10 +234,11 @@ class ViewController: UIViewController {
         today.isEnabled = true
         picker.isEnabled = true
         resetButton.isEnabled = false
+        resetButton.isHidden = true
         refreshControl.endRefreshing()
         result.text = biFlagString + hexFlagString
         if UserDefaults.standard.string(forKey: "Today") == dateString {
-        countRes.text = String(biCountry + hexCountry) + "/" + String(Int(UserDefaults.standard.string(forKey: "TotalCount")!)! + biCountry + hexCountry)
+        countRes.text = String(biCountry + hexCountry) + "/" + String(Int(UserDefaults.standard.string(forKey: "TotalCount")!)! + biCountry + hexCountry) + "/" + String(Double(((Double(UserDefaults.standard.string(forKey: "TotalCount")!)! + Double(biCountry + hexCountry))/Double(daysFromStart))*100).rounded()/100)
             if (WCSession.default.isReachable) {
                 let messageToWatch = ["Flags": "\(biFlagString)\(hexFlagString)","Count":"\(String(biCountry + hexCountry) + "/" + String(Int(UserDefaults.standard.string(forKey: "TotalCount")!)! + biCountry + hexCountry))"]
                 WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
@@ -276,6 +288,7 @@ class ViewController: UIViewController {
         lLabel.text = ""
         rLabel.text = ""
         resetButton.isEnabled = false
+        resetButton.isHidden = false
         result.text = "start"
         countRes.text = ""
         today.isEnabled = false
@@ -303,11 +316,12 @@ class ViewController: UIViewController {
         result.text = "⇩"
         lLabel.text = ""
         rLabel.text = ""
+         resetButton.isHidden = true
         resetButton.isEnabled = false
         scroll.alwaysBounceVertical = true
         scroll.bounces  = true
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refresh), for: UIControlEvents.valueChanged)
+        refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
         scroll.addSubview(refreshControl)
         components(date: Date())
         UserDefaults.standard.set(dateString, forKey: "Today")
