@@ -88,7 +88,6 @@
 		F2D29516207FADC7002034DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F2D29519207FADC7002034DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F2D2951B207FADC7002034DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F2FFE367208B9ED700636BBB /* YappM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YappM.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,7 +181,6 @@
 			children = (
 				F22F0B012098988D001A1104 /* int.aiff */,
 				F22F0B022098988D001A1104 /* silence.aiff */,
-				F2FFE367208B9ED700636BBB /* YappM.entitlements */,
 				F2D2950F207FADC6002034DB /* AppDelegate.swift */,
 				F2D29511207FADC6002034DB /* ViewController.swift */,
 				F2D29513207FADC6002034DB /* Main.storyboard */,
@@ -267,11 +265,11 @@
 					};
 					F21008DE20ACC783000F4491 = {
 						CreatedOnToolsVersion = 9.3.1;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1000;
 					};
 					F2D2950B207FADC6002034DB = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1000;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;

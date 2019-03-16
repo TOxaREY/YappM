@@ -26,7 +26,6 @@ module.exports = function(app, db) {
       app.put ('/token/:id', (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
-    console.log(Object.keys(req.body));
     if (Object.keys(req.body) == 'tokenDevice'){
     var note = { tokenDevice: req.body.tokenDevice };
     };
@@ -44,21 +43,15 @@ module.exports = function(app, db) {
       } 
     });
   });
-           app.post('/token', (req, res) => {
-    if (Object.keys(req.body) == 'tokenDevice'){
-    const note = { tokenDevice: req.body.tokenDevice };
-    };
-    if (Object.keys(req.body) == 'total'){
-    const note = { total: req.body.total };
-    };
-    if (Object.keys(req.body) == 'max'){
-    const note = { max: req.body.max };
-    };
-    db.collection('token').insert(note, (err, result) => {
+           app.post('/token/:id', (req, res) => {
+    const id = req.params.id;
+    const details = { '_id': new ObjectID(id) };
+    var note = { $addToSet:{ tokenDevice: req.body.tokenDevice }};
+    db.collection('token').update(details, note, (err, result) => {
       if (err) { 
         res.send({ 'error': 'An error has occurred' }); 
       } else {
-        res.send(result.ops[0]);
+        res.send(note);
       }
     });
   });

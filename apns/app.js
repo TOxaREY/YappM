@@ -16,7 +16,7 @@ var countrequest2 = 0;
 var countrequestYes = 0;
 var app = '';
 var letters = {A:"\u{1F1E6}",B:"\u{1F1E7}",C:"\u{1F1E8}",D:"\u{1F1E9}",E:"\u{1F1EA}",F:"\u{1F1EB}",G:"\u{1F1EC}",H:"\u{1F1ED}",I:"\u{1F1EE}",J:"\u{1F1EF}",K:"\u{1F1F0}",L:"\u{1F1F1}",M:"\u{1F1F2}",N:"\u{1F1F3}",O:"\u{1F1F4}",P:"\u{1F1F5}",Q:"\u{1F1F6}",R:"\u{1F1F7}",S:"\u{1F1F8}",T:"\u{1F1F9}",U:"\u{1F1FA}",V:"\u{1F1FB}",W:"\u{1F1FC}",X:"\u{1F1FD}",Y:"\u{1F1FE}",Z:"\u{1F1FF}"};
-var deviceToken = '';
+var deviceTokenArray = [];
 var totalCount = '';
 var totalCountTod = '';
 var finishFlag = "\u{1F3C1}";
@@ -61,10 +61,14 @@ var timerSend = setInterval(function() {
   console.log('total ' + totalCount + ' + ' + alljsoncount);
   
     if (checkcount < alljsoncount) {
-       notif(allflags,alljsoncount,'int.aiff',deviceToken,'send')};
+      for (var i = 0; i <= deviceTokenArray.length - 1; i++) {
+       notif(allflags,alljsoncount,'int.aiff',deviceTokenArray[i],'send')
+      }};
 
     if (checkcount == alljsoncount && checkflagsarray.join('') != allflagsarray.join('')) {
-       notif(allflags,alljsoncount,'int.aiff',deviceToken,'send')}; 
+      for (var i = 0; i <= deviceTokenArray.length - 1; i++) {
+       notif(allflags,alljsoncount,'int.aiff',deviceTokenArray[i],'send')
+     }}; 
 }, 1200000);
 // Function checking yesterday
 function checkYes() {
@@ -83,11 +87,12 @@ setTimeout(function(){
         ajcy = +bicountYes + +hexcountYes + +totalCountTod;
         alljsoncountYes = checkmaxcount + "/" + ajcy;
       console.log('yescount&today ' + alljsoncountYes);
-        notif(finishFlag,alljsoncountYes,'silence.aiff',deviceToken,'yes');
+        for (var i = 0; i <= deviceTokenArray.length - 1; i++) {
+        notif(finishFlag,alljsoncountYes,'silence.aiff',deviceTokenArray[i],'yes')};
 var data = "total=" + ajcy;
 var xhrTall = new XMLHttpRequest();
 xhrTall.withCredentials = true;
-xhrTall.open("PUT", "http://33.33.33.33:8000/token/5b8294fc39e883f39cde575b");
+xhrTall.open("PUT", "http://133.33.133.33:8000/token/5b8294fc39e883f39vvvvvvv");
 xhrTall.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 xhrTall.setRequestHeader("Cache-Control", "no-cache");
 xhrTall.send(data);
@@ -97,7 +102,7 @@ if (checkmaxcount > maxcount) {
 var data2 = "max=" + checkmaxcount;
 var xhrMaxx = new XMLHttpRequest();
 xhrMaxx.withCredentials = true;
-xhrMaxx.open("PUT", "http://33.33.33.33:8000/token/5ba48c368389d9d19a055070");
+xhrMaxx.open("PUT", "http://133.33.133.33:8000/token/5ba48c368389d9d1vvvvvvv");
 xhrMaxx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 xhrMaxx.setRequestHeader("Cache-Control", "no-cache");
 xhrMaxx.send(data2);
@@ -127,14 +132,14 @@ function request(date, day){
 if (day == 'today'){
 https1 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1087083&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code";
 https2 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1537733&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code";
-httpTd = "http://33.33.33.33:8000/token/5b7784e05030c080cd04e160";
-httpTl = "http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b";
+httpTd = "http://133.33.133.33:8000/token/5b7784e05030c080cvvvvvvv";
+httpTl = "http://133.33.133.33:8000/token/5b8294fc39e954f40vvvvvvv";
 };
 if (day == 'yesterday'){
 https11 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1087083&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code";
 https22 = "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=1537733&date_since=" + stringDate(date) + "%2000%3A00%3A00&date_until=" + stringDate(date) + "%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code";
-httpTll = "http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b";
-httpMax = "http://33.33.33.33:8000/token/5ba48c368389d9d19a055070";
+httpTll = "http://133.33.133.33:8000/token/5b8294fc39e954f40vvvvvvv";
+httpMax = "http://133.33.133.33:8000/token/5ba48c368389d9d19vvvvvvv";
 };
 if (day == 'today'){  
 xhr1 = new XMLHttpRequest();
@@ -166,15 +171,15 @@ xhrMax.open('GET', httpMax, false);
 // Add header
 if (day == 'today'){
 xhr1.setRequestHeader('Cache-Control', 'max-age=60');
-xhr1.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA');
+xhr1.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayvvvvvvv');
 xhr2.setRequestHeader('Cache-Control', 'max-age=60');
-xhr2.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA');
+xhr2.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayvvvvvvv');
 };
 if (day == 'yesterday'){
 xhr11.setRequestHeader('Cache-Control', 'max-age=60');
-xhr11.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA');
+xhr11.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayvvvvvvv');
 xhr22.setRequestHeader('Cache-Control', 'max-age=60');
-xhr22.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA');
+xhr22.setRequestHeader('Authorization', 'OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayvvvvvvv');
 };	
 // Add timeout async request
 if (day == 'today'){
@@ -206,7 +211,7 @@ if (day == 'today'){
 // Token json
 if (xhrTd.status == 200) {
 jsonPars = JSON.parse(xhrTd.responseText);
-deviceToken = jsonPars.tokenDevice;
+deviceTokenArray = jsonPars.tokenDevice;
 };
 // Total json
 if (xhrTl.status == 200) {
@@ -251,9 +256,10 @@ request200(xhr2, countrequest2, 'hex');
 
 
 if (day == 'yesterday'){
+var nowYes = new Date();
 // App1
 if (xhr11.status == 202) {
-  console.log('startYes 202 bi');
+  console.log('startYes 202 bi' + nowYes);
 secondrequestyes(xhr11, https11, countrequestYes, 'bi');
 } else {
     if (xhr11.status == 200) {
@@ -263,7 +269,7 @@ request200yes(xhr11, countrequestYes, 'bi');
 }};
 //App2
 if (xhr22.status == 202) {
-  console.log('startYes 202 hex');
+  console.log('startYes 202 hex' + nowYes);
 secondrequestyes(xhr22, https22, countrequestYes, 'hex');
 } else {
     if (xhr22.status == 200) {
@@ -400,8 +406,8 @@ function notif(allflags,alljsoncount,sound,deviceToken,check) {
 var apnProvider = new apn.Provider({  
      token: {
         key: 'apns.p8', // Path to the key p8 file
-        keyId: 'JYZ26C6LUW', // The Key ID of the p8 file (available at https://developer.apple.com/account/ios/certificate/key)
-        teamId: 'EB6R5QS764', // The Team ID of your Apple Developer Account (available at https://developer.apple.com/account/#/membership/)
+        keyId: 'JYZvvvvvvv', // The Key ID of the p8 file (available at https://developer.apple.com/account/ios/certificate/key)
+        teamId: 'EB6vvvvvvv', // The Team ID of your Apple Developer Account (available at https://developer.apple.com/account/#/membership/)
     },
     production: false // Set to true if sending a notification to a production iOS app
 });

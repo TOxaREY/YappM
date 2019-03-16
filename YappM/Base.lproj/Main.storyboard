@@ -52,16 +52,6 @@
                                 <color key="textColor" red="0.1647058824" green="0.64705882349999999" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="ASU-cv-Bzp">
-                                <rect key="frame" x="10" y="195" width="300" height="293"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="45"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bgl-FK-8j0">
-                                <rect key="frame" x="0.0" y="195" width="320" height="293"/>
-                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kcm-6c-7h1">
                                 <rect key="frame" x="132.5" y="155" width="55" height="30"/>
                                 <color key="backgroundColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -73,6 +63,16 @@
                                     <action selector="today:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uox-hf-nbu"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="ASU-cv-Bzp">
+                                <rect key="frame" x="10" y="195" width="300" height="293"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="45"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bgl-FK-8j0">
+                                <rect key="frame" x="0.0" y="195" width="320" height="293"/>
+                            </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="28" translatesAutoresizingMaskIntoConstraints="NO" id="KY8-9z-NAC">
                                 <rect key="frame" x="0.0" y="498" width="320" height="60"/>
                                 <constraints>
@@ -105,7 +105,6 @@
                             <constraint firstItem="KY8-9z-NAC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JdB-zU-Nv4"/>
                             <constraint firstItem="0ay-P8-xPQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="KfZ-jS-Z8m"/>
                             <constraint firstItem="ASU-cv-Bzp" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LHb-8X-3N3"/>
-                            <constraint firstItem="KY8-9z-NAC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="R8r-LD-uHE"/>
                             <constraint firstItem="KY8-9z-NAC" firstAttribute="centerY" secondItem="LIb-lQ-A1O" secondAttribute="centerY" id="RBn-Av-ZmE"/>
                             <constraint firstItem="Niw-Jy-MYe" firstAttribute="centerY" secondItem="kcm-6c-7h1" secondAttribute="centerY" id="Vow-DJ-DM6"/>
                             <constraint firstItem="KY8-9z-NAC" firstAttribute="top" secondItem="ASU-cv-Bzp" secondAttribute="bottom" constant="10" id="WNv-ne-sbA"/>
@@ -120,6 +119,7 @@
                             <constraint firstItem="Bgl-FK-8j0" firstAttribute="top" secondItem="kcm-6c-7h1" secondAttribute="bottom" constant="10" id="fkT-kg-jsr"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="KY8-9z-NAC" secondAttribute="bottom" constant="10" id="hz8-Vk-ARI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Bgl-FK-8j0" secondAttribute="trailing" id="kpQ-c2-Lcu"/>
+                            <constraint firstItem="KY8-9z-NAC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mQ3-Dk-kvg"/>
                             <constraint firstItem="kcm-6c-7h1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="uMX-yw-tLR"/>
                             <constraint firstItem="3Ap-tJ-YM0" firstAttribute="centerY" secondItem="kcm-6c-7h1" secondAttribute="centerY" id="x9y-i0-loP"/>
                         </constraints>

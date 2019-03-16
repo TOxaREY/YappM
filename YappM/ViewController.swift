@@ -75,15 +75,15 @@ class ViewController: UIViewController {
     func putToken()  {
         if UserDefaults.standard.string(forKey: "TokenDevice") != nil {
             let params: [String: Any] = ["tokenDevice" : UserDefaults.standard.string(forKey: "TokenDevice")!]
-            Alamofire.request("http://33.33.33.33:8000/token/5b7784e05030c080cd04e160", method: .put, parameters: params).responseJSON { (response) in
+            Alamofire.request("http://133.33.133.33:8000/token/5c8b46b588e65ad1cvvvvvv", method: .post, parameters: params).responseJSON { (response) in
                 guard response.result.isSuccess else{return}
                 let val = (response.value)!
-                print("put token \(val)")
+                print("post token \(val)")
             }
         }
     }
     func getTotal() {
-        Alamofire.request("http://33.33.33.33:8000/token/5b8294fc39e954f40cde575b", method: .get).responseJSON
+        Alamofire.request("http://133.33.133.33:8000/token/5b8294fc39e883f39cvvvvv", method: .get).responseJSON
             { (response) in
             guard response.result.isSuccess else{return}
             let result = response.data
@@ -133,12 +133,13 @@ class ViewController: UIViewController {
             }
         } else {
                if req < 20 {
-        // guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
-            guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code") else { return }
+//        guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
+                guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code") else { return }
+
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = HTTPMethod.get.rawValue
             urlRequest.setValue("max-age=60", forHTTPHeaderField: "Cache-Control")
-            urlRequest.setValue("OAuth AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA", forHTTPHeaderField: "Authorization")
+            urlRequest.setValue("OAuth AQAAAAAhPETSAAT2D89FSOxLukvvvvvvvvv", forHTTPHeaderField: "Authorization")
             urlRequest.timeoutInterval = 30
         
            Alamofire.request(urlRequest)
@@ -179,6 +180,7 @@ class ViewController: UIViewController {
                             }
                             if rLabel.text == "error" && lLabel.text == "error" {
                                 resetButton.isEnabled = false
+                                resetButton.isHidden = true
                                 result.text = "reload⇩"
                                 rLabel.text = ""
                                 lLabel.text = ""
@@ -307,7 +309,7 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -316,7 +318,7 @@ class ViewController: UIViewController {
         result.text = "⇩"
         lLabel.text = ""
         rLabel.text = ""
-         resetButton.isHidden = true
+        resetButton.isHidden = true
         resetButton.isEnabled = false
         scroll.alwaysBounceVertical = true
         scroll.bounces  = true
