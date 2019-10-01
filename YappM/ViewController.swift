@@ -71,7 +71,7 @@ class ViewController: UIViewController {
         resetButton.isHidden = true
     }
     @IBOutlet weak var picker: UIDatePicker!
-
+    
     func putToken()  {
         if UserDefaults.standard.string(forKey: "TokenDevice") != nil {
             let params: [String: Any] = ["tokenDevice" : UserDefaults.standard.string(forKey: "TokenDevice")!]
@@ -85,15 +85,15 @@ class ViewController: UIViewController {
     func getTotal() {
         Alamofire.request("http://133.33.133.33:8000/token/5b8294fc39e883f39cvvvvv", method: .get).responseJSON
             { (response) in
-            guard response.result.isSuccess else{return}
-            let result = response.data
+                guard response.result.isSuccess else{return}
+                let result = response.data
                 do {
                     let totalJson = try JSONDecoder().decode(Total.self, from: result!)
                     let total = totalJson.total
                     print("get total \(total)")
                     if Int(total) != nil {
-                    UserDefaults.standard.set(total, forKey: "TotalCount")
-                  }
+                        UserDefaults.standard.set(total, forKey: "TotalCount")
+                    }
                 }
                 catch {
                     print("error JSON")
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
                     rLabel.text = "reset"
                     lLabel.text = "reset"
                 } else {
-                lLabel.text = "reset"
+                    lLabel.text = "reset"
                 }
             } else {
                 if lLabel.text == "OK" || lLabel.text == "error" {
@@ -132,64 +132,64 @@ class ViewController: UIViewController {
                 }
             }
         } else {
-               if req < 20 {
-//        guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
+            if req < 20 {
+                //        guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code&oauth_token=AQAAAAAhPETSAAT2D89FSOxLukvSkqayXbCBReA") else { return }
                 guard let url = URL(string: "https://api.appmetrica.yandex.ru/logs/v1/export/installations.json?application_id=\(idApp)&date_since=\(dateString)%2000%3A00%3A00&date_until=\(dateString)%2023%3A59%3A59&date_dimension=default&use_utf8_bom=true&fields=country_iso_code") else { return }
-
-            var urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = HTTPMethod.get.rawValue
-            urlRequest.setValue("max-age=60", forHTTPHeaderField: "Cache-Control")
-            urlRequest.setValue("OAuth AQAAAAAhPETSAAT2D89FSOxLukvvvvvvvvv", forHTTPHeaderField: "Authorization")
-            urlRequest.timeoutInterval = 30
-        
-           Alamofire.request(urlRequest)
-                .responseString { response in
-                    guard response.result.isSuccess else {
-                        print("Error response: \(String(describing: response.result.error))")
-                        return self.request(idApp: idApp, dateString: dateString)
-                    }
-                    let statusCode = (response.response?.statusCode)!
-                    let result = response.data
-                    if idApp=="1087083" {
-                        if statusCode == 202 {
-                            self.lLabel.text = "request"
+                
+                var urlRequest = URLRequest(url: url)
+                urlRequest.httpMethod = HTTPMethod.get.rawValue
+                urlRequest.setValue("max-age=60", forHTTPHeaderField: "Cache-Control")
+                urlRequest.setValue("OAuth AQAAAAAhPETSAAT2D89FSOxLukvvvvvvvvv", forHTTPHeaderField: "Authorization")
+                urlRequest.timeoutInterval = 30
+                
+                Alamofire.request(urlRequest)
+                    .responseString { response in
+                        guard response.result.isSuccess else {
+                            print("Error response: \(String(describing: response.result.error))")
+                            return self.request(idApp: idApp, dateString: dateString)
                         }
-                        if statusCode == 200 {
-                            self.lLabel.text = "OK"
-                        }
-                    } else {
-                        self.resetButton.isEnabled = true
-                        if statusCode == 202 {
-                            self.rLabel.text = "request"
-                        }
-                        if statusCode == 200 {
-                            self.rLabel.text = "OK"
-                        }
-                    }
-                            switch statusCode {
-                            case 202: req += 1; self.result.text = String(req); DispatchQueue.main.asyncAfter(deadline: .now() + 6) {self.request(idApp: idApp, dateString: dateString)}
-                            case 200: self.jsonCount(result: result!, idApp: idApp); self.resulView()
-                            default: break
-                             }
-                        }
-               } else {
-                            if idApp=="1087083" {
-                                lLabel.text = "error"
-                                } else {
-                                   rLabel.text = "error"
+                        let statusCode = (response.response?.statusCode)!
+                        let result = response.data
+                        if idApp=="1087083" {
+                            if statusCode == 202 {
+                                self.lLabel.text = "request"
                             }
-                            if rLabel.text == "error" && lLabel.text == "error" {
-                                resetButton.isEnabled = false
-                                resetButton.isHidden = true
-                                result.text = "reload⇩"
-                                rLabel.text = ""
-                                lLabel.text = ""
-                                today.isEnabled = true
-                                picker.isEnabled = true
-                                refreshControl.endRefreshing()
-                           }
+                            if statusCode == 200 {
+                                self.lLabel.text = "OK"
+                            }
+                        } else {
+                            self.resetButton.isEnabled = true
+                            if statusCode == 202 {
+                                self.rLabel.text = "request"
+                            }
+                            if statusCode == 200 {
+                                self.rLabel.text = "OK"
+                            }
+                        }
+                        switch statusCode {
+                        case 202: req += 1; self.result.text = String(req); DispatchQueue.main.asyncAfter(deadline: .now() + 6) {self.request(idApp: idApp, dateString: dateString)}
+                        case 200: self.jsonCount(result: result!, idApp: idApp); self.resulView()
+                        default: break
+                        }
                 }
-         }
+            } else {
+                if idApp=="1087083" {
+                    lLabel.text = "error"
+                } else {
+                    rLabel.text = "error"
+                }
+                if rLabel.text == "error" && lLabel.text == "error" {
+                    resetButton.isEnabled = false
+                    resetButton.isHidden = true
+                    result.text = "reload⇩"
+                    rLabel.text = ""
+                    lLabel.text = ""
+                    today.isEnabled = true
+                    picker.isEnabled = true
+                    refreshControl.endRefreshing()
+                }
+            }
+        }
     }
     
     func jsonCount(result:Data, idApp:String) {
@@ -215,12 +215,12 @@ class ViewController: UIViewController {
                     if country[i] == "" {
                         flagString.append("\u{1F3F3}" + "\u{FE0F}" + "\u{200D}" + "\u{1F308}")
                     } else {
-                    flagString.append(letters[String(country[i].first!)]! + letters[String(country[i].last!)]! + " ")
-                  }
+                        flagString.append(letters[String(country[i].first!)]! + letters[String(country[i].last!)]! + " ")
+                    }
                 }
                 if idApp == "1087083"{
-                  biFlagString += flagString
-                  biCountry += count
+                    biFlagString += flagString
+                    biCountry += count
                 } else {
                     hexFlagString += flagString
                     hexCountry += count
@@ -228,32 +228,32 @@ class ViewController: UIViewController {
             }
         } catch {
             print("error JSON")
-      }
-    }
-    func resulView() {
-    if rLabel.text == "OK" && lLabel.text == "OK" {
-        req = 0
-        today.isEnabled = true
-        picker.isEnabled = true
-        resetButton.isEnabled = false
-        resetButton.isHidden = true
-        refreshControl.endRefreshing()
-        result.text = biFlagString + hexFlagString
-        if UserDefaults.standard.string(forKey: "Today") == dateString {
-        countRes.text = String(biCountry + hexCountry) + "/" + String(Int(UserDefaults.standard.string(forKey: "TotalCount")!)! + biCountry + hexCountry) + "/" + String(Double(((Double(UserDefaults.standard.string(forKey: "TotalCount")!)! + Double(biCountry + hexCountry))/Double(daysFromStart))*100).rounded()/100)
-            if (WCSession.default.isReachable) {
-                let messageToWatch = ["Flags": "\(biFlagString)\(hexFlagString)","Count":"\(String(biCountry + hexCountry) + "/" + String(Int(UserDefaults.standard.string(forKey: "TotalCount")!)! + biCountry + hexCountry))"]
-                WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
-            }
-        } else {
-            countRes.text = String(biCountry + hexCountry)
-        if (WCSession.default.isReachable) {
-            let messageToWatch = ["Flags": "\(biFlagString)\(hexFlagString)","Count":"\(String(biCountry + hexCountry))"]
-            WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
-          }
         }
     }
-}
+    func resulView() {
+        if rLabel.text == "OK" && lLabel.text == "OK" {
+            req = 0
+            today.isEnabled = true
+            picker.isEnabled = true
+            resetButton.isEnabled = false
+            resetButton.isHidden = true
+            refreshControl.endRefreshing()
+            result.text = biFlagString + hexFlagString
+            if UserDefaults.standard.string(forKey: "Today") == dateString {
+                countRes.text = String(biCountry + hexCountry) + "/" + String(Int(UserDefaults.standard.string(forKey: "TotalCount")!)! + biCountry + hexCountry) + "/" + String(Double(((Double(UserDefaults.standard.string(forKey: "TotalCount")!)! + Double(biCountry + hexCountry))/Double(daysFromStart))*100).rounded()/100)
+                if (WCSession.default.isReachable) {
+                    let messageToWatch = ["Flags": "\(biFlagString)\(hexFlagString)","Count":"\(String(biCountry + hexCountry) + "/" + String(Int(UserDefaults.standard.string(forKey: "TotalCount")!)! + biCountry + hexCountry))"]
+                    WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
+                }
+            } else {
+                countRes.text = String(biCountry + hexCountry)
+                if (WCSession.default.isReachable) {
+                    let messageToWatch = ["Flags": "\(biFlagString)\(hexFlagString)","Count":"\(String(biCountry + hexCountry))"]
+                    WCSession.default.sendMessage(messageToWatch, replyHandler: nil)
+                }
+            }
+        }
+    }
     
     func components(date:Date){
         let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
@@ -275,7 +275,7 @@ class ViewController: UIViewController {
             dateString = "\(years)-\(months)-\(days)"
         }
     }
-
+    
     @objc func datePicker(_ sender: UIDatePicker) {
         components(date: sender.date)
         picker.maximumDate = Date()
@@ -309,8 +309,8 @@ class ViewController: UIViewController {
             }
         }
     }
-
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         putToken()
@@ -328,7 +328,7 @@ class ViewController: UIViewController {
         components(date: Date())
         UserDefaults.standard.set(dateString, forKey: "Today")
         picker.addTarget(self, action: #selector(datePicker(_:)), for: .valueChanged)
-     }
+    }
 }
 
 

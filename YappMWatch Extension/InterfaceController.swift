@@ -12,7 +12,7 @@ import WatchConnectivity
 
 
 class InterfaceController: WKInterfaceController {
-
+    
     @IBOutlet var startButtonOut: WKInterfaceButton!
     @IBAction func startButton() {
     }
@@ -73,9 +73,9 @@ class InterfaceController: WKInterfaceController {
         NotificationCenter.default.addObserver(self, selector: #selector(resetButtonDeactive), name: NSNotification.Name(rawValue: "resetButtonDeactive"), object: nil)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "notifToInterContr"), object: nil, queue: nil, using: catchNotification)
     }
-
+    
     override func didDeactivate() {
         super.didDeactivate()
     }
-
+    
 }
