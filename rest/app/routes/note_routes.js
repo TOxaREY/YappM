@@ -12,7 +12,7 @@ module.exports = function(app, db) {
       } 
     });
   });
-    app.delete('/token/:id', (req, res) => {
+  app.delete('/token/:id', (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     db.collection('token').remove(details, (err, item) => {
@@ -23,27 +23,27 @@ module.exports = function(app, db) {
       } 
     });
   });
-      app.put ('/token/:id', (req, res) => {
+  app.put ('/token/:id', (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     if (Object.keys(req.body) == 'tokenDevice'){
-    var note = { tokenDevice: req.body.tokenDevice };
+      var note = { tokenDevice: req.body.tokenDevice };
     };
     if (Object.keys(req.body) == 'total'){
-    var note = { total: req.body.total };
+      var note = { total: req.body.total };
     };
     if (Object.keys(req.body) == 'max'){
-    var note = { max: req.body.max };
+      var note = { max: req.body.max };
     };
     db.collection('token').update(details, note, (err, result) => {
       if (err) {
-          res.send({'error':'An error has occurred'});
+        res.send({'error':'An error has occurred'});
       } else {
-          res.send(note);
+        res.send(note);
       } 
     });
   });
-           app.post('/token/:id', (req, res) => {
+  app.post('/token/:id', (req, res) => {
     const id = req.params.id;
     const details = { '_id': new ObjectID(id) };
     var note = { $addToSet:{ tokenDevice: req.body.tokenDevice }};
