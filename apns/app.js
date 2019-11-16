@@ -401,7 +401,7 @@ if (countrequest < 20) {
     }}, 10000);
 };
 // Function notification
-function notif(allflags,alljsoncount,sound,deviceToken,check) {
+function notif(allflags,alljsoncount,sound,check) {
 // Set up apn with the APNs Auth Key
 var apnProvider = new apn.Provider({  
  token: {
@@ -441,10 +441,9 @@ if (check == 'yes') {
 // Play ping.aiff sound when the notification is received
 notification.sound = sound;
 // Actually send the notification
-apnProvider.send(notification, deviceToken).then(function(result) {  
+apnProvider.send(notification, deviceTokenArray).then(function(result) {  
     // Check the result for any failed devices
     console.log(result);
-    apnProvider.shutdown();
     if (check == 'yes') {
       checkcount = 0;
       checkflags = '';
@@ -458,6 +457,7 @@ apnProvider.send(notification, deviceToken).then(function(result) {
       checkcount = alljsoncount;
       checkflags = allflags;
     };  
-  })
+  });
+apnProvider.shutdown();
 };
 
