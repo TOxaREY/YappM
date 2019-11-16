@@ -61,15 +61,13 @@ var timerSend = setInterval(function() {
   console.log('total ' + totalCount + ' + ' + alljsoncount);
   
   if (checkcount < alljsoncount) {
-    for (var i = 0; i <= deviceTokenArray.length - 1; i++) {
-     notif(allflags,alljsoncount,'int.aiff',deviceTokenArray[i],'send')
-   }};
+   notif(allflags,alljsoncount,'int.aiff','send')
+ };
 
-   if (checkcount == alljsoncount && checkflagsarray.join('') != allflagsarray.join('')) {
-    for (var i = 0; i <= deviceTokenArray.length - 1; i++) {
-     notif(allflags,alljsoncount,'int.aiff',deviceTokenArray[i],'send')
-   }}; 
- }, 1200000);
+ if (checkcount == alljsoncount && checkflagsarray.join('') != allflagsarray.join('')) {
+   notif(allflags,alljsoncount,'int.aiff','send')
+ }; 
+}, 1200000);
 // Function checking yesterday
 function checkYes() {
   var now = new Date();
@@ -87,28 +85,27 @@ function checkYes() {
   ajcy = +bicountYes + +hexcountYes + +totalCountTod;
   alljsoncountYes = checkmaxcount + "/" + ajcy;
   console.log('yescount&today ' + alljsoncountYes);
-  for (var i = 0; i <= deviceTokenArray.length - 1; i++) {
-    notif(finishFlag,alljsoncountYes,'silence.aiff',deviceTokenArray[i],'yes')};
-    var data = "total=" + ajcy;
-    var xhrTall = new XMLHttpRequest();
-    xhrTall.withCredentials = true;
-    xhrTall.open("PUT", "http://133.33.133.33:8000/token/5b8294fc39e883f39vvvvvvv");
-    xhrTall.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhrTall.setRequestHeader("Cache-Control", "no-cache");
-    xhrTall.send(data);
-    console.log('send mongo ' + data);
+  notif(finishFlag,alljsoncountYes,'silence.aiff','yes');
+  var data = "total=" + ajcy;
+  var xhrTall = new XMLHttpRequest();
+  xhrTall.withCredentials = true;
+  xhrTall.open("PUT", "http://133.33.133.33:8000/token/5b8294fc39e883f39vvvvvvv");
+  xhrTall.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhrTall.setRequestHeader("Cache-Control", "no-cache");
+  xhrTall.send(data);
+  console.log('send mongo ' + data);
 
-    if (checkmaxcount > maxcount) {
-      var data2 = "max=" + checkmaxcount;
-      var xhrMaxx = new XMLHttpRequest();
-      xhrMaxx.withCredentials = true;
-      xhrMaxx.open("PUT", "http://133.33.133.33:8000/token/5ba48c368389d9d1vvvvvvv");
-      xhrMaxx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhrMaxx.setRequestHeader("Cache-Control", "no-cache");
-      xhrMaxx.send(data2);
-      console.log('send mongo ' + data2);
-    };
-  }, timeCheck += 300000);
+  if (checkmaxcount > maxcount) {
+    var data2 = "max=" + checkmaxcount;
+    var xhrMaxx = new XMLHttpRequest();
+    xhrMaxx.withCredentials = true;
+    xhrMaxx.open("PUT", "http://133.33.133.33:8000/token/5ba48c368389d9d1vvvvvvv");
+    xhrMaxx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhrMaxx.setRequestHeader("Cache-Control", "no-cache");
+    xhrMaxx.send(data2);
+    console.log('send mongo ' + data2);
+  };
+}, timeCheck += 300000);
 };
 
 // Function convert Date to string
