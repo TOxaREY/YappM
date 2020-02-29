@@ -1,6 +1,7 @@
 var apn = require('apn');
 var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 var allflags = '';
+var allflagspush = '';
 var biflag = '';
 var hexflag = '';
 var alljsoncount = 0;
@@ -397,6 +398,24 @@ if (countrequest < 20) {
       countrequest = 0;
     }}, 10000);
 };
+// Function unique flags
+function unique(all) {
+  var allflagsarray = all.split(" ");
+  var flags = [];
+  var stringallflagscount = '';
+  for (let str of allflagsarray) {
+    if (!flags.includes(str)) {
+      flags.push(str);
+    }
+  }
+  for (let flg of flags) {
+    if (flg != '') {
+      var count = (all.split(flg).length - 1)
+      stringallflagscount = stringallflagscount + flg + ' - ' + count + '  ';
+    };
+  }
+  return stringallflagscount;
+};
 // Function notification
 function notif(allflags,alljsoncount,sound,check) {
 // Set up apn with the APNs Auth Key
@@ -408,6 +427,12 @@ var apnProvider = new apn.Provider({
       },
     production: false // Set to true if sending a notification to a production iOS app
   });
+// Long allflags
+if (allflags.length > 240) {
+  allflagspush = unique(allflags);
+} else {
+  allflagspush = allflags;
+}
 // Prepare a new notification
 var notification = new apn.Notification();
 // Specify your iOS app's Bundle ID (accessible within the project editor)
@@ -453,6 +478,7 @@ apnProvider.send(notification, deviceTokenArray).then(function(result) {
     if (check == 'send') {
       checkcount = alljsoncount;
       checkflags = allflags;
+      allflagspush = '';
     };  
   });
 apnProvider.shutdown();
